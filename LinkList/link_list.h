@@ -25,7 +25,10 @@ public:
     LinkList(T arr[], int size);
     int len() const;
     T get(int position) const;
-    //返回引用可以修改，同时也是const
+    //返回引用可以修改，但同时也是const, 或许我不该返回一个引用，或者不该加上const？
+    //Returned value can be changed, which is change the value inside the list.
+    //However, the function can be add const, may I should't return a refference ,
+    //or I should't add const to it?
     T &get_ref(int position) const;
     void put(T value);
     T pop();
