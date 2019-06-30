@@ -19,3 +19,5 @@ Also implement several methods:
 9.  Delete a value at a given position 
 10. Reverse list;
 11. Destructor;
+12. Overload [] operator;
+13. Overload ostream;
