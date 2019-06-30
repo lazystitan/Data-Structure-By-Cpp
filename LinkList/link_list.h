@@ -7,22 +7,26 @@
 
 #include "node.h"
 
-//first way to put it outside class template
+//first way to put overload of iostream operator outside class template
 //template <typename T> class LinkList;
 //template <typename T> std::ostream &operator<<(std::ostream &os, const LinkList<T> &list);
 
 template <typename T>
 class LinkList {
 private:
+    int length;
     Node<T> *head;
 //    Node<T> *pointer;
     void init();
+    Node<T> *get_p_to_position(int position) const;
+    Node<T> *get_p_to_before_position(int position) const;
 public:
     LinkList();
     LinkList(T arr[], int size);
     int len() const;
     T get(int position) const;
-    T &get_ref(int position);
+    //返回引用可以修改，同时也是const
+    T &get_ref(int position) const;
     void put(T value);
     T pop();
     void insert(T value, int position);
@@ -43,6 +47,7 @@ public:
 template<typename T>
 void LinkList<T>::init() {
     head = new Node<T>();
+    length = 0;
 }
 
 template<typename T>
@@ -53,6 +58,7 @@ LinkList<T>::LinkList() {
 template<typename T>
 LinkList<T>::LinkList(T arr[], int size) {
     init();
+    length = size;
     Node<T> *p = head;
     for (int i = 0; i < size; i++)
         p = new Node<T>(p, arr[i]);
@@ -72,28 +78,17 @@ std::ostream &operator<<(std::ostream &os, const LinkList<T> &list) {
 
 template<typename T>
 int LinkList<T>::len() const {
-    auto *p = head -> next;
-    int len = 0;
-    while (p) {
-        len ++;
-        p = p -> next;
-    }
-    return len;
+    return length;
 }
 
 template<typename T>
 void LinkList<T>::insert(T value, int position) {
-    if (position > len() - 1) {
+    if (position > length - 1) {
         exit( 2 );
     }
-
-    Node<T> *p = head;
-    int number = 0;
-    while (number < position) {
-        number++;
-        p = p ->next;
-    }
+    Node<T> *p = this->get_p_to_before_position(position);
     new Node<T>(p, value, p->next);
+    length++;
 }
 
 template<typename T>
@@ -104,7 +99,7 @@ void LinkList<T>::put(T value) {
     }
 
     new Node<T>(p, value, p ->next);
-
+    length++;
 }
 
 template<typename T>
@@ -116,42 +111,33 @@ T LinkList<T>::pop() {
     T result = p ->next ->value;
     delete p -> next;
     p -> next = nullptr;
-
+    length--;
     return result;
 }
 
 template<typename T>
 T LinkList<T>::get(int position) const {
-    if (position > len() - 1) {
+    if (position > length - 1) {
         exit( 2 );
     }
 
-    Node<T> *p = head;
-    int number = 0;
-    while (number <= position) {
-        number++;
-        p = p ->next;
-    }
+    Node<T> *p = this->get_p_to_position(position);
     return p->value;
 }
 
 template<typename T>
 void LinkList<T>::del(int position) {
-    if (position > len() - 1) {
+    if (position > length - 1) {
         exit( 2 );
     }
 
-    Node<T> *now = head, *pre;
-    int number = 0;
-    while (number < position) {
-        number++;
-        now = now ->next;
-    }
+    Node<T> *now = this->get_p_to_before_position(position);
 
-    pre = now;
+    Node<T> *pre = now;
     now = now -> next;
     pre -> next = now -> next;
     delete now;
+    length--;
 }
 
 template<typename T>
@@ -184,37 +170,39 @@ LinkList<T>::~LinkList() {
 
 template<typename T>
 T &LinkList<T>::operator[](int position) {
-    if (position > len() - 1) {
+    if (position > length - 1) {
         exit( 2 );
     }
-
-    Node<T> *p = head;
-    int number = 0;
-    while (number <= position) {
-        number++;
-        p = p ->next;
-    }
-
+    Node<T> *p = this->get_p_to_position(position);
     T &value_r = p->value;
-
     return value_r;
 }
 
 template<typename T>
-T &LinkList<T>::get_ref(int position) {
-    if (position > len() - 1) {
+T &LinkList<T>::get_ref(int position) const {
+    if (position > length - 1) {
         exit( 2 );
     }
+    Node<T> *p = this->get_p_to_position(position);
+    T &r = p->value;
+    return r;
+}
 
+template<typename T>
+Node<T> *LinkList<T>::get_p_to_position(int position) const {
+    Node<T> *p = this->get_p_to_before_position(position);
+    return p -> next;
+}
+
+template<typename T>
+Node<T> *LinkList<T>::get_p_to_before_position(int position) const {
     Node<T> *p = head;
     int number = 0;
-    while (number <= position) {
+    while (number < position) {
         number++;
         p = p ->next;
     }
-
-    T &r = p->value;
-    return r;
+    return p;
 }
 
 
