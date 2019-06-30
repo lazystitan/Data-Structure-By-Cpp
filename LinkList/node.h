@@ -2,23 +2,39 @@
 // Created by Riton on 2019/6/29.
 //
 
-#ifndef CMAKETEST_NODE_H
-#define CMAKETEST_NODE_H
+#ifndef NODE_H
+#define NODE_H
 
-class Node {
-private:
-public:
-    int value;
-    Node *next;
-    Node(int value, Node *next);
+template <typename T>
+struct Node {
+    T value;
+    Node<T> *next;
+    Node() = default;
+    Node(Node<T> *prior, T value);
+    Node(T value, Node<T> *next);
+    Node(Node<T> *prior, T value, Node<T> *next);
 };
 
-Node::Node(int value, Node *next) {
+
+template<typename T>
+Node<T>::Node(Node<T> *prior, T value) {
+    prior->next = this;
+    this->value = value;
+    this->next = nullptr;
+}
+
+template <typename T>
+Node<T>::Node(T value, Node *next) {
     this->value = value;
     this->next = next;
 }
 
-
+template<typename T>
+Node<T>::Node(Node<T> *prior, T value, Node<T> *next) {
+    prior->next = this;
+    this->value = value;
+    this->next = next;
+}
 
 
 #endif //CMAKETEST_NODE_H
