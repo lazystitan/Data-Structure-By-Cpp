@@ -16,25 +16,21 @@ class LinkList {
 private:
     int length;
     Node<T> *head;
-//    Node<T> *pointer;
-    void init();
     Node<T> *get_p_to_position(int position) const;
     Node<T> *get_p_to_before_position(int position) const;
 public:
     LinkList();
+    LinkList(const LinkList<T> &list);
     LinkList(T arr[], int size);
     int len() const;
     T get(int position) const;
-    //返回引用可以修改，但同时也是const, 或许我不该返回一个引用，或者不该加上const？
-    //Returned value can be changed, which is change the value inside the list.
-    //However, the function can be add const, may I should't return a refference ,
-    //or I should't add const to it?
-    T &get_ref(int position) const;
+    T &get_ref(int position);
     void put(T value);
     T pop();
     void insert(T value, int position);
     void del(int position);
     void rev();
+    void sort();
     ~LinkList();
 
     T &operator[](int position);
@@ -47,20 +43,27 @@ public:
     friend std::ostream &operator<<(std::ostream &os, const LinkList<U> &list);
 };
 
-template<typename T>
-void LinkList<T>::init() {
+template <typename T>
+LinkList<T>::LinkList() {
     head = new Node<T>();
     length = 0;
 }
 
 template<typename T>
-LinkList<T>::LinkList() {
-    init();
+LinkList<T>::LinkList(const LinkList<T> &list) {
+    head = new Node<T>();
+    length = list.length;
+    Node<T> *p = head, *q = list.head;
+    while (q) {
+        p = new Node<T>(p,q->value);
+        q = q ->next;
+    }
+    p -> next = nullptr;
 }
 
 template<typename T>
 LinkList<T>::LinkList(T arr[], int size) {
-    init();
+    head = new Node<T>();
     length = size;
     Node<T> *p = head;
     for (int i = 0; i < size; i++)
@@ -182,7 +185,7 @@ T &LinkList<T>::operator[](int position) {
 }
 
 template<typename T>
-T &LinkList<T>::get_ref(int position) const {
+T &LinkList<T>::get_ref(int position) {
     if (position > length - 1) {
         exit( 2 );
     }
@@ -208,5 +211,9 @@ Node<T> *LinkList<T>::get_p_to_before_position(int position) const {
     return p;
 }
 
+template<typename T>
+void LinkList<T>::sort() {
+    //TODO
+}
 
 #endif //DATA_STRUCTURE_BY_CPP_LINK_LIST_H

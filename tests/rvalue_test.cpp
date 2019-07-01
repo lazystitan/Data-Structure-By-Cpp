@@ -26,6 +26,9 @@ int main() {
     cout <<x1 <<endl;
     cout <<&x1 <<endl;
 
+    char a[] = "123";
+    printf("%0xd",a);
+
 
     return 0;
 }

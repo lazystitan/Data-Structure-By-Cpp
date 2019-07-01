@@ -17,23 +17,16 @@ struct Node {
 
 
 template<typename T>
-Node<T>::Node(Node<T> *prior, T value) {
+Node<T>::Node(Node<T> *prior, T value) : value(value), next(nullptr) {
     prior->next = this;
-    this->value = value;
-    this->next = nullptr;
 }
 
 template <typename T>
-Node<T>::Node(T value, Node *next) {
-    this->value = value;
-    this->next = next;
-}
+Node<T>::Node(T value, Node *next) : value(value), next(next) {}
 
 template<typename T>
-Node<T>::Node(Node<T> *prior, T value, Node<T> *next) {
+Node<T>::Node(Node<T> *prior, T value, Node<T> *next) : value(value), next(next) {
     prior->next = this;
-    this->value = value;
-    this->next = next;
 }
 
 

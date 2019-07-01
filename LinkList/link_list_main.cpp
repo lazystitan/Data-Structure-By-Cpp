@@ -46,6 +46,11 @@ int main() {
     (*list)[5] = 128;
     cout << *list << endl;
 
+    LinkList<int> list2 = *list;
+    cout << *list << endl;
+
+
+
 
 
 
