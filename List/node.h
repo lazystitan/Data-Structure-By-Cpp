@@ -17,7 +17,7 @@ struct ListNode {
 
     ListNode() = default;
 
-    ListNode(T e, ListNodePosition<T> p = nullptr, ListNodePosition<T> s = nullptr)
+    explicit ListNode(T e, ListNodePosition<T> p = nullptr, ListNodePosition<T> s = nullptr)
         : data(e), precursor(p), succeed(s){ };
     ListNodePosition<T> insert_as_precursor( T const &e);
     ListNodePosition<T> insert_as_succeed( T const &e);
