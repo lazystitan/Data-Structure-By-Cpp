@@ -5,6 +5,8 @@
 #ifndef DATA_STRUCTURE_BY_CPP_LIST_H
 #define DATA_STRUCTURE_BY_CPP_LIST_H
 
+//#include <assert.h>
+#include <cassert>
 #include "node.h"
 
 template <typename T>
@@ -18,7 +20,7 @@ protected:
     //Copy n nodes after p
     void copyNodes(ListNodePosition<T>, int);
     //Merge
-    void merge( ListNodePosition<T> &, int, List, ListNodePosition<T>, int);
+    void merge( ListNodePosition<T> &, int, List<T> &, ListNodePosition<T>, int);
     //Using merge / selection / insertion sort to sort n nodes after p
     void merge_sort(ListNodePosition<T> &, int);
     void selection_sort(ListNodePosition<T>, int);
@@ -41,7 +43,7 @@ public:
     ListNodePosition<T> first() const { return header -> succeed; }
     ListNodePosition<T> last() const { return trailer -> precursor; }
     bool valid(ListNodePosition<T> p) const { return p && (trailer != p) && (header != p); }
-    int is_ordered() const;
+    bool is_ordered() const; // any pre-data is bigger than the data after it
     ListNodePosition<T> find(T const &e) const { return find(e, header, trailer); }; //for disordered list without boundaries
     ListNodePosition<T> find(T const &e, int n, ListNodePosition<T> p) const; //for disordered list with boundaries
     ListNodePosition<T> search(T const &e) const { return search(e, header, trailer); }; //for ordered list without boundaries
@@ -93,31 +95,62 @@ void List<T>::copyNodes(ListNodePosition<T> p, int n) {
     while (n--){
         insert_as_last(p->data);
         p = p->succeed;
+        assert(p);
     }
 
 }
 
 template<typename T>
-void List<T>::merge(ListNodePosition<T> &, int, List, ListNodePosition<T>, int) {
-    //TODO
-
+void List<T>::merge(ListNodePosition<T> &p, int n, List &L, ListNodePosition<T> q, int m) {
+    ListNodePosition<T> prep = p->precursor;
+    while (m > 0) {
+        if ((n > 0) && (p->data <= q->data)) {
+            if (q == (p = p->succeed))
+                break;
+            n--;
+        } else {
+            insert_as_precursor(p, L.remove((q = q->succeed)->precursor));
+            m--;
+        }
+    }
+    p = prep->succeed;
 }
 
 template<typename T>
-void List<T>::merge_sort(ListNodePosition<T> &, int) {
-    //TODO
-
+void List<T>::merge_sort(ListNodePosition<T> &p, int n) {
+    if (n < 2) {
+        return;
+    }
+    int m = n >> 1;
+    ListNodePosition<T> q = p;
+    for (int i = 0; i < m; ++i)
+        q = q->succeed;
+    merge_sort(p, m);
+    merge_sort(q, n - m);
+    merge(p, m, *this, q, n - m);
 }
 
 template<typename T>
-void List<T>::selection_sort(ListNodePosition<T>, int) {
-    //TODO
-
+void List<T>::selection_sort(ListNodePosition<T> p, int n) {
+    ListNodePosition<T> head = p->precursor, tail = p;
+    for (int i = 0; i < n; ++i) {
+        tail = tail->succeed;
+    }
+    while (n > 1) {
+        ListNodePosition<T> max = this->max(head->succeed, n);
+        insert_as_precursor(tail, remove(max));
+        tail = tail->precursor;
+        n--;
+    }
 }
 
 template<typename T>
-void List<T>::insertion_sort(ListNodePosition<T>, int) {
-    //TODO
+void List<T>::insertion_sort(ListNodePosition<T> p, int n) {
+    for (int r = 0; r < n; ++r) {
+        insert_as_succeed(search(p->data, r, p), p->data);
+        p = p->succeed;
+        remove(p->precursor);
+    }
 
 }
 
@@ -128,11 +161,13 @@ List<T>::List(const List<T> &L) {
 
 template<typename T>
 List<T>::List(ListNodePosition<T> p, int n) {
+    assert(valid(p));
     copyNodes(p, n);
 }
 
 template<typename T>
 List<T>::List(const List<T> &L, int r, int n) {
+    assert((n + r) <= L._size) ;
     copyNodes(L.get_pointer(r), n);
 }
 
@@ -152,9 +187,12 @@ T &List<T>::operator[](int r) const {
 }
 
 template<typename T>
-int List<T>::is_ordered() const {
-    //TODO
-    return 0;
+bool List<T>::is_ordered() const {
+    ListNodePosition<T> p = header->succeed;
+    while ((p = p->succeed) != trailer)
+        if (p->data < p->precursor->data)
+            return false;
+    return true;
 }
 
 template<typename T>
@@ -176,8 +214,11 @@ ListNodePosition<T> List<T>::search(const T &e, int n, ListNodePosition<T> p) co
 
 template<typename T>
 ListNodePosition<T> List<T>::max(ListNodePosition<T> p, int n) const {
-    //TODO
-    return nullptr;
+    ListNodePosition<T> max = p;
+    for (ListNodePosition<T> cur = p;  n > 1; n--)
+        if (!(cur = cur->succeed)->data > max -> data)
+            max = cur;
+    return max;
 }
 
 template<typename T>
@@ -259,8 +300,9 @@ int List<T>::uniquify() {
 
 template<typename T>
 void List<T>::reverse() {
-    //TODO
-
+    ListNodePosition<T> temp = header;
+    header = trailer;
+    trailer = temp;
 }
 
 template<typename T>
