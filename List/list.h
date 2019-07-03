@@ -24,6 +24,8 @@ protected:
     void selection_sort(ListNodePosition<T>, int);
     void insertion_sort(ListNodePosition<T>, int);
 
+    ListNodePosition<T> get_pointer(int r) const;
+
 public:
     //constructors
     List() { init(); } //default constructor
@@ -78,13 +80,20 @@ void List<T>::init() {
 
 template<typename T>
 int List<T>::clear() {
-    //TODO
+    int old_size = _size;
+    while (_size > 0) {
+        remove(header->succeed);
+    }
     return 0;
 }
 
 template<typename T>
-void List<T>::copyNodes(ListNodePosition<T>, int) {
-    //TODO
+void List<T>::copyNodes(ListNodePosition<T> p, int n) {
+    init();
+    while (n--){
+        insert_as_last(p->data);
+        p = p->succeed;
+    }
 
 }
 
@@ -114,26 +123,24 @@ void List<T>::insertion_sort(ListNodePosition<T>, int) {
 
 template<typename T>
 List<T>::List(const List<T> &L) {
-    //TODO
-
-}
-
-template<typename T>
-List<T>::List(const List<T> &L, int r, int n) {
-    //TODO
-
+    copyNodes(L.first(), L._size);
 }
 
 template<typename T>
 List<T>::List(ListNodePosition<T> p, int n) {
-    //TODO
+    copyNodes(p, n);
+}
 
+template<typename T>
+List<T>::List(const List<T> &L, int r, int n) {
+    copyNodes(L.get_pointer(r), n);
 }
 
 template<typename T>
 List<T>::~List() {
-    //TODO
-
+    clear();
+    delete header;
+    delete trailer;
 }
 
 template<typename T>
@@ -152,14 +159,19 @@ int List<T>::is_ordered() const {
 
 template<typename T>
 ListNodePosition<T> List<T>::find(const T &e, int n, ListNodePosition<T> p) const {
-    //TODO
+    while (n-- > 0)
+        if (e == (p = p->precursor)->data)
+            return p;
+
     return nullptr;
 }
 
 template<typename T>
 ListNodePosition<T> List<T>::search(const T &e, int n, ListNodePosition<T> p) const {
-    //TODO
-    return nullptr;
+    while (n-- <= 0)
+        if (((p = p->precursor)->data) <= e)
+            break;
+    return p;
 }
 
 template<typename T>
@@ -170,50 +182,79 @@ ListNodePosition<T> List<T>::max(ListNodePosition<T> p, int n) const {
 
 template<typename T>
 ListNodePosition<T> List<T>::insert_as_first(const T &e) {
-    //TODO
-    return nullptr;
+    _size++;
+    return header->insert_as_succeed(e);
 }
 
 template<typename T>
 ListNodePosition<T> List<T>::insert_as_last(const T &e) {
-    //TODO
-    return nullptr;
+    _size++;
+    return trailer->insert_as_precursor(e);
 }
 
 template<typename T>
 ListNodePosition<T> List<T>::insert_as_precursor(ListNodePosition<T> p, const T &e) {
-    //TODO
-    return nullptr;
+    _size++;
+    return p->insert_as_precursor(e);
 }
 
 template<typename T>
 ListNodePosition<T> List<T>::insert_as_succeed(ListNodePosition<T> p, const T &e) {
-    //TODO
-    return nullptr;
+    return p->insert_as_succeed(e);
 }
 
 template<typename T>
 T List<T>::remove(ListNodePosition<T> p) {
-    //TODO
-    return nullptr;
+    T e = p->data;
+    p->precursor = p->succeed;
+    p->succeed->precursor = p->precursor;
+    delete p;
+    _size--;
+    return e;
 }
 
 template<typename T>
 void List<T>::sort(ListNodePosition<T> p, int n) {
-    //TODO
+    switch (rand() % 3) {
+        case 1: insertion_sort(p, n);   break;
+        case 2: selection_sort(p, n);   break;
+        case 3: merge_sort(p, n);   break;
+    }
 
 }
 
 template<typename T>
 int List<T>::deduplicate() {
-    //TODO
-    return 0;
+    if (_size < 2) {
+        return 0;
+    }
+
+    int old_size = _size;
+    ListNodePosition<T> p = header;
+    int r = 0;
+    while (trailer != (p = p->succeed)) {
+        ListNodePosition<T> q = find(p->data, r, p);
+        q ? remove(q) : r++;
+    }
+
+    return old_size - _size;
 }
 
 template<typename T>
 int List<T>::uniquify() {
-    //TODO
-    return 0;
+    if (_size < 2) {
+        return 0;
+    }
+
+    int old_size = _size;
+    ListNodePosition<T> p = first(), q;
+    while ((q=p->succeed) != trailer)
+        if (p->data != q->data)
+            p = q;
+        else
+            remove(q);
+
+    return old_size - _size;
 }
 
 template<typename T>
@@ -223,15 +264,24 @@ void List<T>::reverse() {
 }
 
 template<typename T>
-void List<T>::traverse(void (*)(T &)) {
-    //TODO
-
+void List<T>::traverse(void (*visit)(T &)) {
+    for (ListNodePosition<T> p = header->succeed; p != trailer; p = p->succeed)
+        visit(p->data);
 }
 
 template<typename T>
 template<typename VST>
-void List<T>::traverse(VST &) {
-    //TODO
+void List<T>::traverse(VST &visit) {
+    for (ListNodePosition<T> p = header->succeed; p != trailer; p = p->succeed)
+        visit(p->data);
+}
+
+template<typename T>
+ListNodePosition<T> List<T>::get_pointer(int r) const {
+    ListNodePosition<T> p = header->succeed;
+    while (r-- > 0)
+        p = p->succeed;
+    return p;
 }
 
 #endif //DATA_STRUCTURE_BY_CPP_LIST_H

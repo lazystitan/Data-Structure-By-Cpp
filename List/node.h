@@ -7,6 +7,7 @@
 
 template <typename T> struct ListNode;
 
+//template <typename T> typedef ListNode<T> * ListNodePosition;
 template <typename T> using ListNodePosition = ListNode<T> *;
 
 template <typename T>

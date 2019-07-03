@@ -23,6 +23,7 @@ public:
     LinkList(const LinkList<T> &list);
     LinkList(T arr[], int size);
     int len() const;
+    bool empty() const { return length <= 0; }
     T get(int position) const;
     T &get_ref(int position);
     void put(T value);
