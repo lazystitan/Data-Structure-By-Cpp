@@ -22,19 +22,21 @@ public:
     LinkList();
     LinkList(const LinkList<T> &list);
     LinkList(T arr[], int size);
+    ~LinkList();
+
     int len() const;
     bool empty() const { return length <= 0; }
     T get(int position) const;
-    T &get_ref(int position);
+    T &operator[](int position) const;
+    T &get_ref(int position) const;
+
     void put(T value);
     T pop();
     void insert(T value, int position);
     void del(int position);
     void rev();
     void sort();
-    ~LinkList();
 
-    T &operator[](int position);
 
 //first way
 //friend std::ostream &operator<< <T>(std::ostream &os, const LinkList<T> &list);
@@ -176,7 +178,7 @@ LinkList<T>::~LinkList() {
 }
 
 template<typename T>
-T &LinkList<T>::operator[](int position) {
+T &LinkList<T>::operator[](int position) const {
     if (position > length - 1) {
         exit( 2 );
     }
@@ -186,7 +188,7 @@ T &LinkList<T>::operator[](int position) {
 }
 
 template<typename T>
-T &LinkList<T>::get_ref(int position) {
+T &LinkList<T>::get_ref(int position) const {
     if (position > length - 1) {
         exit( 2 );
     }
