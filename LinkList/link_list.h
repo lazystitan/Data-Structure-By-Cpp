@@ -183,8 +183,7 @@ T &LinkList<T>::operator[](int position) const {
         exit( 2 );
     }
     Node<T> *p = this->get_p_to_position(position);
-    T &value_r = p->value;
-    return value_r;
+    return p->value;
 }
 
 template<typename T>
@@ -193,8 +192,7 @@ T &LinkList<T>::get_ref(int position) const {
         exit( 2 );
     }
     Node<T> *p = this->get_p_to_position(position);
-    T &r = p->value;
-    return r;
+    return p->value;
 }
 
 template<typename T>

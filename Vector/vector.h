@@ -5,6 +5,8 @@
 #ifndef DATA_STRUCTURE_BY_CPP_VECTOR_H
 #define DATA_STRUCTURE_BY_CPP_VECTOR_H
 
+#include <cstdlib>
+
 #define DEFAULT_CAPACITY 1024
 
 template <typename T>
@@ -29,17 +31,17 @@ protected:
 
 public:
     //constructors and destructor
-    Vector(int capacity = DEFAULT_CAPACITY, int size = 0, T default_value = 0);
+    explicit Vector(int capacity = DEFAULT_CAPACITY, int size = 0, T default_value = 0);
     Vector(T const * array, int n) { copy_from(array, 0, n); }
     Vector(T const * array, int low, int high) { copy_from(array, low, high); }
     Vector(Vector<T> const & vec) { copy_from(vec._element, vec._size); }
     Vector(Vector<T> const & vec, int low, int high) { copy_from(vec._element, low, high); }
-    ~Vector() {delete [] _element; }
+    ~Vector() { delete [] _element; }
 
     //read-only
     int size() const { return _size; }
     bool empty() const { return !_size; }
-    int is_ordered() const;
+    bool is_ordered() const;
     int find(T const &e) const { find(e, 0, _size); }
     int find(T const &e, int low, int high) const;
     int search(T const &e) const { return ( 0>= _size) ? -1: search(e, 0, _size); }
@@ -67,20 +69,35 @@ public:
 
 template<typename T>
 void Vector<T>::copy_from(T const *array, int low, int high) {
-    //TODO
-
+    _element = new T[_capacity = 2 * (high - low)];
+    _size = 0;
+    while (low < high) {
+        _element[_size++] = array[low++];
+    }
 }
 
 template<typename T>
 void Vector<T>::expand() {
-    //TODO
-
+    if (_size < _capacity) return;
+    if (_capacity < DEFAULT_CAPACITY) _capacity = DEFAULT_CAPACITY;
+    T *old_element = _element;
+    _element = new T[_capacity <<= 1];
+    for (int i = 0; i < _size; ++i) {
+        _element[i] = old_element[i];
+    }
+    delete [] old_element;
 }
 
 template<typename T>
 void Vector<T>::shrink() {
-    //TODO
-
+    if (_capacity < DEFAULT_CAPACITY << 1) return;
+    if (_size << 2 > _capacity) return;
+    T *old_element = _element;
+    _element = new T[_capacity >>= 1];
+    for (int i = 0; i < _size; ++i) {
+        _element[i] = old_element[i];
+    }
+    delete [] old_element;
 }
 
 template<typename T>
@@ -139,56 +156,71 @@ void Vector<T>::heap_sort(int low, int high) {
 
 template<typename T>
 Vector<T>::Vector(int capacity, int size, T default_value) {
-    //TODO
+    _element = new T[_capacity = capacity];
+    for (_size = 0;  _size < size ; size++) {
+        _element[_size] = default_value;
+    }
 
 }
 
 template<typename T>
-int Vector<T>::is_ordered() const {
-    //TODO
-    return 0;
+bool Vector<T>::is_ordered() const {
+    for (int i = 0; i < _size - 1; ++i)
+        if (_element[i] > _element[i + 1])
+            return false;
+    return true;
 }
 
 template<typename T>
 int Vector<T>::find(const T &e, int low, int high) const {
-    //TODO
-    return 0;
+    while ((high-- > low)&&(_element[high] == e));
+    return high;
 }
 
 template<typename T>
 int Vector<T>::search(const T &e, int low, int high) const {
-    //TODO
-    return 0;
+    return (rand() % 2) ?
+        bin_search(_element, e, low, high) : fib_search(_element, e, low, high);
 }
 
 template<typename T>
 T &Vector<T>::operator[](int r) const {
-    //TODO
-    return nullptr;
+    return _element[r];
 }
 
 template<typename T>
 Vector<T> &Vector<T>::operator=(const Vector<T> &vec) {
-    //TODO
+    if (_element)
+        delete [] _element;
+    copy_from(vec._element, 0, vec._size);
     return *this;
 }
 
 template<typename T>
 T Vector<T>::remove(int r) {
-    //TODO
-    return nullptr;
+    T e = _element[r];
+    remove(r, r + 1);
+    return e;
 }
 
 template<typename T>
 int Vector<T>::remove(int low, int high) {
-    //TODO
-    return 0;
+    if (low == high)
+        return 0;
+    while (high > _size)
+        _element[low++] = _element[high++];
+    shrink();
+    return high - low;
 }
 
 template<typename T>
 int Vector<T>::insert(int r, const T &e) {
-    //TODO
-    return 0;
+    expand();
+    for (int i = _size; i > r; i--)
+        _element[i] = _element[i - 1];
+    _element[r] = e;
+    _size++;
+    return r;
 }
 
 template<typename T>
@@ -199,33 +231,47 @@ void Vector<T>::sort(int low, int high) {
 
 template<typename T>
 void Vector<T>::de_sort(int low, int high) {
-    //TODO
+    T *p = _element + low;
+    for (int i = high - low; i > 0 ; i--) {
+        T temp = p[i - 1];
+        int r = rand() % i;
+        p[i - 1] =  p[r];
+        p[r] = temp;
+    }
 
 }
 
-template<typename T>
+template <typename T>
 int Vector<T>::deduplicate() {
-    //TODO
-    return 0;
+    int old_size = _size;
+    int i = 1;
+    while (i < _size)
+        (find(_element[i], 0, i) < 0) ? i++ : remove(i);
+    return old_size - _size;
 }
 
 template<typename T>
 int Vector<T>::uniquify() {
-    //TODO
+    int i = 0, j = 0;
+    while (++j < _size)
+        if (_element[i] != _element[j])
+            _element[i++] = _element[j];
+    _size = ++i;
+    shrink();
     return 0;
 }
 
 template<typename T>
 void Vector<T>::traverse(void (*f)(T &)) {
-    //TODO
-
+    for (int i = 0; i < _size; ++i)
+        f(_element[i]);
 }
 
 template<typename T>
 template<typename VST>
 void Vector<T>::traverse(VST &vst) {
-    //TODO
-
+    for (int i = 0; i < _size; ++i)
+        vst(_element[i]);
 }
 
 #endif //DATA_STRUCTURE_BY_CPP_VECTOR_H
