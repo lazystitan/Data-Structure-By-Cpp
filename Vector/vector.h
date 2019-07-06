@@ -7,6 +7,9 @@
 
 #include <cstdlib>
 
+#include "bin_search.h"
+#include "fib_search.h"
+
 #define DEFAULT_CAPACITY 1024
 
 template <typename T>
@@ -179,8 +182,19 @@ int Vector<T>::find(const T &e, int low, int high) const {
 
 template<typename T>
 int Vector<T>::search(const T &e, int low, int high) const {
-    return (rand() % 2) ?
-        bin_search(_element, e, low, high) : fib_search(_element, e, low, high);
+    int result = 0;
+    switch (rand() % 4) {
+        case 0: result = bin_search_a(_element, e, low, high);
+            break;
+        case 1: result = fib_search(_element, e, low, high);
+            break;
+        case 2: result = bin_search_b(_element, e, low, high);
+            break;
+        case 3: result = bin_search_c(_element, e, low, high);
+            break;
+    }
+
+    return result;
 }
 
 template<typename T>
