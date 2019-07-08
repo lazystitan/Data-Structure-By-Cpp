@@ -224,6 +224,7 @@ int Vector<T>::remove(int low, int high) {
     while (high > _size)
         _element[low++] = _element[high++];
     shrink();
+    _size--;
     return high - low;
 }
 
