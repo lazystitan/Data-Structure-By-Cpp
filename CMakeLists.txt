@@ -6,5 +6,6 @@ add_subdirectory(LinkList)
 add_subdirectory(tests)
 add_subdirectory(List)
 add_subdirectory(Vector)
+add_subdirectory(Stack)
 
 add_executable(main.cpp main)
