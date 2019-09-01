@@ -9,5 +9,6 @@ add_subdirectory(tests)
 add_subdirectory(List)
 add_subdirectory(Vector)
 add_subdirectory(Stack)
+add_subdirectory(Queue)
 
 add_executable(main.cpp main)
