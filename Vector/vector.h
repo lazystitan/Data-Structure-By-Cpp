@@ -56,7 +56,7 @@ public:
     T remove(int r);
     int remove(int low, int high);
     int insert(int r, T const &e);
-    int put(T const &e) { return  insert(_size, e); }
+    int insert(T const &e) { return  insert(_size, e); }
     void sort(int low, int high);
     void sort() { return sort(0, _size); }
     void de_sort(int low, int high);

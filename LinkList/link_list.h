@@ -7,7 +7,7 @@
 
 #include "node.h"
 
-//first way to put overload of iostream operator outside class template
+//first way to insert overload of iostream operator outside class template
 //template <typename T> class LinkList;
 //template <typename T> std::ostream &operator<<(std::ostream &os, const LinkList<T> &list);
 

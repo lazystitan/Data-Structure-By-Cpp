@@ -11,5 +11,6 @@ add_subdirectory(Vector)
 add_subdirectory(Stack)
 add_subdirectory(Queue)
 add_subdirectory(BinaryTree)
+add_subdirectory(Graph)
 
-add_executable(main.cpp main)
+add_executable(main main.cpp)
