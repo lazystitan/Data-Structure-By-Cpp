@@ -6,3 +6,4 @@ add_executable(decltype_test auto_decltype_test.cpp)
 add_executable(type_alias type_alias.cpp)
 add_executable(a_lot_test a_lot_test.cpp)
 add_executable(delete_test_main delete_test_main.cpp)
+

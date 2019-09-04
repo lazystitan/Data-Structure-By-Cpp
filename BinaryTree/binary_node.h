@@ -76,6 +76,7 @@ BinNode<T> * BinNode<T>::insert_as_right_child(T const& e) {
 
 template<typename T>
 BinNode<T> *BinNode<T>::succeed() {
+//    TODO
     return nullptr;
 }
 
@@ -124,6 +125,7 @@ void BinNode<T>::trav_post(VST &visit) {
 template<typename T>
 template<typename VST>
 void BinNode<T>::trav_in(VST &visit) {
+//        many kinds of in trav
 //    switch (rand() % 5) {
 //        case 1: trav_in_i1(this, visit); break;
 //        case 2: trav_in_i2(this, visit); break;

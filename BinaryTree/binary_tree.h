@@ -14,6 +14,7 @@ protected:
     BinNode<T> * _root;
     virtual int update_height(BinNode<T> * x);
     void update_height_above(BinNode<T> * x);
+    static int romove_at(BinNode<T> *);
 
 public:
     BinTree() : _size(0), _root(nullptr) {}
@@ -101,7 +102,8 @@ BinNode<T> *BinTree<T>::insert_as_right_child(BinNode<T>* x, const T &e) {
 
 template<typename T>
 BinNode<T> *BinTree<T>::attach_as_left_child(BinNode<T>* x, BinTree<T>* s) {
-    if (x->left_child = s->_root)
+    x->left_child = s->_root;
+    if (x->left_child)
         x->left_child->parent = x;
     _size += s->_size;
     update_height_above(x);
@@ -117,7 +119,8 @@ BinNode<T> *BinTree<T>::attach_as_left_child(BinNode<T>* x, BinTree<T>* s) {
 
 template<typename T>
 BinNode<T> *BinTree<T>::attach_as_right_child(BinNode<T>* x, BinTree<T>* s) {
-    if (x->right_child = s->_root)
+    x->right_child = s->_root;
+    if (x->right_child)
         x->right_child->parent = x;
     _size += s->_size;
     update_height_above(x);
@@ -133,7 +136,22 @@ BinNode<T> *BinTree<T>::attach_as_right_child(BinNode<T>* x, BinTree<T>* s) {
 
 template<typename T>
 int BinTree<T>::remove(BinNode<T> *x) {
-    return 0;
+    from_parent_to(*x) = nullptr;
+    update_height_above(x->parent);
+    int n = remove_at(x);
+    _size -= n;
+    return n;
+}
+
+template<typename T>
+int BinTree<T>::romove_at(BinNode<T> *x) {
+    if (!x) return 0;
+    int n = 1 + remove_at(x->left_child) + remove_at(x->right_child);
+//    strange!
+//    release(x->data);
+//    release(x);
+    delete x;
+    return n;
 }
 
 //delete subtree

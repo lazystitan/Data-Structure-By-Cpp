@@ -184,29 +184,29 @@ bool Graph<Tv, Te>::TSort(int v, int &clock, Stack<Tv> *stack) {
 template<typename Tv, typename Te>
 template<typename PU>
 void Graph<Tv, Te>::PFS(int, PU) {
-
+//    TODO
 }
 
 
 template<typename Tv, typename Te>
 void Graph<Tv, Te>::bcc(int) {
-
+//    TODO
 }
 
 template<typename Tv, typename Te>
 void Graph<Tv, Te>::prim(int) {
-
+//    TODO
 }
 
 template<typename Tv, typename Te>
 void Graph<Tv, Te>::dijkstra(int) {
-
+//    TODO
 }
 
 template<typename Tv, typename Te>
 template<typename PU>
 void Graph<Tv, Te>::pfs(int, PU) {
-
+//    TODO
 }
 
 

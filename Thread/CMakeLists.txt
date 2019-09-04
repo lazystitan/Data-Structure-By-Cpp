@@ -1,0 +1,10 @@
+project(thread)
+#set(CMAKE_CXX_FLAGS -pthread)
+find_package (Threads)
+add_executable(thread_test_main std_thread_test_main.cpp)
+add_executable(thread_start_time_test std_thread_start_time_test.cpp)
+add_executable(data_race_test_main data_race_test.cpp)
+target_link_libraries (thread_test_main ${CMAKE_THREAD_LIBS_INIT})
+target_link_libraries (thread_start_time_test ${CMAKE_THREAD_LIBS_INIT})
+target_link_libraries (data_race_test_main ${CMAKE_THREAD_LIBS_INIT})
+
