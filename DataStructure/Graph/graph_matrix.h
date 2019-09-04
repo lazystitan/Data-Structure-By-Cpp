@@ -5,6 +5,7 @@
 #ifndef DATA_STRUCTURE_BY_CPP_GRAPH_MATRIX_H
 #define DATA_STRUCTURE_BY_CPP_GRAPH_MATRIX_H
 
+#include <climits>
 #include "../Vector/vector.h"
 #include "graph.h"
 
