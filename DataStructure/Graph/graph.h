@@ -157,11 +157,6 @@ void Graph<Tv, Te>::DFS(int v, int &clock) {
 }
 
 template<typename Tv, typename Te>
-void Graph<Tv, Te>::BCC(int, int &, Stack<int> &) {
-
-}
-
-template<typename Tv, typename Te>
 Stack<Tv> *Graph<Tv, Te>::t_sort(int s) {
     reset();
     int clock = 0;
@@ -211,8 +206,44 @@ bool Graph<Tv, Te>::TSort(int v, int &clock, Stack<Tv> *stack) {
 
 template<typename Tv, typename Te>
 template<typename PU>
-void Graph<Tv, Te>::PFS(int, PU) {
-//    TODO
+void Graph<Tv, Te>::pfs(int s, PU priority_updater) {
+    reset();
+    int v = s;
+    do
+        if (status(v) == UNDISCOVERED)
+            PFS(v, priority_updater);
+    while (s != (v = (++v % n)));
+}
+
+template<typename Tv, typename Te>
+template<typename PU>
+void Graph<Tv, Te>::PFS(int s, PU priority_updater) {
+    priority(s) = 0;
+    status(s) = VISITED;
+    parent(s) = -1;
+    while (true) {
+        for (int w = first_nbr(s); w > -1 ; w = next_nbr(s, w)) {
+            priority_updater(this, s, w);
+        }
+
+        for (int shortest = INT_MAX, w = 0; w < n; ++w) {
+            if (status(w) == UNDISCOVERED)
+                if (shortest > priority(w)) {
+                    shortest = priority(w);
+                    s = w;
+                }
+        }
+
+        if (status(s) == VISITED)
+            break;
+        status(s) = VISITED;
+        type(parent(s), s) = TREE;
+    }
+}
+
+template<typename Tv, typename Te>
+void Graph<Tv, Te>::BCC(int, int &, Stack<int> &) {
+
 }
 
 
@@ -231,11 +262,29 @@ void Graph<Tv, Te>::dijkstra(int) {
 //    TODO
 }
 
-template<typename Tv, typename Te>
-template<typename PU>
-void Graph<Tv, Te>::pfs(int, PU) {
-//    TODO
-}
+//针对Prim算法的顶点优先级更新器
+template <typename Tv, typename Te>
+struct PrimPU {
+    virtual void operator() (Graph<Tv, Te> *g, int uk, int v) {
+        if (g->status(v) == UNDISCOVERED)
+            if (g->priority(v) > g->weight(uk, v)) {
+                g->priority(v) = g->weight(uk, v);
+                g->parent(v) = uk;
+            }
+    }
+};
+
+//针对Dijkstra算法的顶点优先级更新器
+template <typename Tv, typename Te>
+struct DijkstraPU {
+    virtual void operator() (Graph<Tv, Te> *g, int uk, int v) {
+        if (g->priority(v) > g->priority(uk) + g->weight(uk, v)) {
+            g->priority(v) = g->priority(uk) + g->weight(uk, v);
+            g->parent(v) = uk;
+        }
+    }
+};
+
 
 
 #endif //DATA_STRUCTURE_BY_CPP_GRAPH_H
