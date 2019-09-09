@@ -5,16 +5,23 @@
 #ifndef DATA_STRUCTURE_BY_CPP_GRAPH_H
 #define DATA_STRUCTURE_BY_CPP_GRAPH_H
 
+#include <climits>
 #include "../Stack/stack.h"
 #include "../Queue/queue.h"
 
 typedef enum {UNDISCOVERED, DISCOVERED, VISITED} VStatus;
+//三种节点状态：未发现，已发现，已访问
 typedef enum {UNDETERMINED, TREE, CROSS, FORWARD, BACKWARD} EType;
+//三种边状态：未决定，树，交叉，前向，后向
+//未决定：初始状态
 
 template <typename Tv, typename Te>
 class Graph {
 private:
     void reset() {
+        //遍历所有节点
+        //节点设为未发现，d时间和f时间设为-1，消除父节点，优先级最大
+        //所有边设置为未决定
         for (int i = 0; i < n; ++i) {
             status(i) = UNDISCOVERED;
             d_time(i) = f_time(i) = -1;
@@ -106,9 +113,15 @@ void Graph<Tv, Te>::BFS(int v, int &clock) {
 
 template<typename Tv, typename Te>
 void Graph<Tv, Te>::dfs(int s) {
-    reset();
-    int clock = 0;
-    int v = s;
+    //外部入口，从编号为s的节点开始深度优先遍历
+    reset();//先初始化
+    int clock = 0;//计“时”
+    int v = s;//初始化v，即是传入的节点编号
+    /*
+     * 当节点v未发现且的时候，进行遍历
+     * 这时传入的v就是s，即是从s开始遍历
+     * while的条件是防止是不连通的图
+     * */
     do
         if (status(v) == UNDISCOVERED)
             DFS(v, clock);
@@ -117,8 +130,16 @@ void Graph<Tv, Te>::dfs(int s) {
 
 template<typename Tv, typename Te>
 void Graph<Tv, Te>::DFS(int v, int &clock) {
-    d_time(v) = ++clock;
-    status(v) = DISCOVERED;
+    d_time(v) = ++clock;//设置此节点活动开始时间
+    status(v) = DISCOVERED;//将当前节点v设置为已发现
+    /*
+     * 从v开始的边中不断寻找下一个节点。
+     * 当下一个节点没有被发现的时候，将这条边设置为树的一部分，
+     * 并且将它的父节点设置为当前节点，然后从此节点开始新一轮深度优先搜索；
+     * 如果下一个节点是已发现节点，就将这条边设置为后向边；
+     * 如果下一个节点是已访问节点，确定当前节点是先被访问还是后被访问，
+     * 先被访问说明此边是前向边，否则是交叉边。
+     * */
     for (int u = first_nbr(v); u > -1 ; u = next_nbr(v, u)) {
         switch (status(u)) {
             case UNDISCOVERED: type(v, u) = TREE;
@@ -131,8 +152,8 @@ void Graph<Tv, Te>::DFS(int v, int &clock) {
                 break;
         }
     }
-    status(v) = VISITED;
-    f_time(v) = ++clock;
+    status(v) = VISITED;//此节点已访问
+    f_time(v) = ++clock;//设置此节点活动截止时间
 }
 
 template<typename Tv, typename Te>
@@ -148,6 +169,10 @@ Stack<Tv> *Graph<Tv, Te>::t_sort(int s) {
     auto* stack = new Stack<Tv>;
     do {
         if (status(v) == UNDISCOVERED)
+            /*
+             * 不同之处在这里，传入了一个栈，如果TSort报错错误，
+             * 会把栈内所有的节点弹出并返回，即就是失败；
+             * */
             if (!TSort(v, clock, stack)) {
                 while (!stack->empty())
                     stack->pop();
@@ -166,10 +191,12 @@ bool Graph<Tv, Te>::TSort(int v, int &clock, Stack<Tv> *stack) {
             case UNDISCOVERED:
                 parent(u) = v;
                 type(v, u) = TREE;
+                //对下一个节点进行深度优先
                 if (!TSort(u, clock, stack))
                     return false;
                 break;
             case DISCOVERED:
+                //有后向边说明有环存在（未确定）所以报错。
                 type(v, u) = BACKWARD;
                 return false;
             default:
@@ -177,6 +204,7 @@ bool Graph<Tv, Te>::TSort(int v, int &clock, Stack<Tv> *stack) {
                 break;
     }
     status(v) = VISITED;
+    //将此节点入栈
     stack->push(vertex(v));
     return true;
 }
