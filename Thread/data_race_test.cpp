@@ -86,7 +86,7 @@ void test3() {
         std::this_thread::sleep_for(10ns);
 
 //        std::lock_guard<std::mutex> lg(mutex);
-        std::unique_lock<std::mutex> ul(mutex);
+        std::unique_lock<std::mutex> ul(mutex);x
         person.name = "def";
         person.age = 21;
         person.gender = 0;

@@ -5,6 +5,7 @@
 #include <iostream>
 #include <thread>
 #include <vector>
+#include <queue>
 
 using namespace std;
 
@@ -181,6 +182,31 @@ void test11() {
     thread_b.join();
 }
 
+struct PU {
+    void operator() (queue<int> &q) {
+        while (!q.empty()) {
+            cout << q.front() << endl;
+            q.pop();
+        }
+    }
+};
+
+void test12() {
+    auto *q = new queue<int>();
+    q->push(1);
+    q->push(3);
+    q->push(5);
+    q->push(8);
+    q->push(2);
+    q->push(3);
+    q->push(0);
+    q->push(9);
+
+//  important : std::thread takes its arguments by value.
+            thread t(PU{}, ref(*q));
+    t.join();
+}
+
 int main() {
 //    test1();
 //    test2();
@@ -192,7 +218,8 @@ int main() {
 //    test8();
 //    test9();
 //    test10();
-    test11();
+//    test11();
+    test12();
     cout << "main thread" <<endl;
     return 0;
 }

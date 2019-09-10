@@ -19,9 +19,11 @@ template <typename Tv, typename Te>
 class Graph {
 private:
     void reset() {
-        //遍历所有节点
-        //节点设为未发现，d时间和f时间设为-1，消除父节点，优先级最大
-        //所有边设置为未决定
+        /*
+         * 遍历所有节点
+         * 节点设为未发现，d时间和f时间设为-1，消除父节点，优先级最大
+         * 所有边设置为未决定
+         * */
         for (int i = 0; i < n; ++i) {
             status(i) = UNDISCOVERED;
             d_time(i) = f_time(i) = -1;
