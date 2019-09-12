@@ -8,5 +8,6 @@ add_subdirectory(Tests)
 add_subdirectory(DataStructure)
 add_subdirectory(Thread)
 add_subdirectory(STL)
+add_subdirectory(ACM)
 
 add_executable(main main.cpp)
