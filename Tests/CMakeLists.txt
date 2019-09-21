@@ -7,4 +7,6 @@ add_executable(type_alias type_alias.cpp)
 add_executable(a_lot_test a_lot_test.cpp)
 add_executable(delete_test_main delete_test_main.cpp)
 add_executable(variadic_temp variadic_temp.cpp)
+add_executable(succeed_test succeed_test.cpp)
+add_executable(lifetime_test lifetime_test.cpp)
 
