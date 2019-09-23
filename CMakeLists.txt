@@ -9,5 +9,6 @@ add_subdirectory(DataStructure)
 add_subdirectory(Thread)
 add_subdirectory(STL)
 add_subdirectory(ACM)
+add_subdirectory(InterviewAlgorithms)
 
 add_executable(main main.cpp)
