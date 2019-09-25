@@ -2,6 +2,8 @@
 // Created by Riton on 2019/9/24.
 //
 
+#include <climits>
+
 /*
  * 一个栈，包括三个方法：
  * push
@@ -19,12 +21,14 @@ private:
     int top;
     int *min_p;
     int top_min;
+    int size;
 public:
     explicit stack(int size) {
         data_p = new int[size];
         min_p = new int[size];
         top = -1;
         top_min = -1;
+        this->size = size;
     }
 
     ~stack() {
@@ -33,6 +37,8 @@ public:
     }
 
     void push(int data) {
+        if (top == size - 1)
+            return;
         top++;
         data_p[top] = data;
         if (top_min == -1) {
@@ -44,6 +50,8 @@ public:
     }
 
     int pop() {
+        if (top == -1)
+            return INT_MIN;
         int temp = data_p[top];
         if (data_p[top] == min_p[top_min]) {
             top_min --;
@@ -53,6 +61,8 @@ public:
     }
 
     int min() {
+        if (top_min == -1)
+            return INT_MIN;
         return min_p[top_min--];
     }
 };

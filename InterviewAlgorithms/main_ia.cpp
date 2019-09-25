@@ -338,10 +338,83 @@ void test7() {
  */
 
 int first_unique_char(string s) {
+//    太慢，太复杂
+//    map<char, pair<int, int>> m;
+//    int i = 0;
+//    for (auto &c : s) {
+//        auto p = m.insert(map<char, pair<int, int>>::value_type(c, make_pair(i++, 1)));
+//        if (!p.second) {
+//            m[c].second++;
+//        }
+//    }
+//    bool has_unique = false;
+//    char c = s.back();
+//    int num = s.length();
+//    cout << "start char : " << c << " num : " << num << endl;
+//    for (auto &key_value : m) {
+//        cout << "char : " << key_value.first << " , num : " << key_value.second.first << " , times: " << key_value.second.second << " ." << endl;
+//        if ((num >= key_value.second.first) && (key_value.second.second == 1)) {
+//            cout << key_value.first << " is more close to head." << endl;
+//            has_unique = true;
+//            num = key_value.second.first;
+//            c = key_value.first;
+//        }
+//    }
+//
+//    if (has_unique)
+//        return num;
+//    else
+//        return -1;
+    int arr[26] = {0};
+    for (char i : s) {
+        arr[i - 'a']++;
+    }
+    for (int j = 0; j < s.length(); ++j) {
+        if (arr[s[j] - 'a'] == 1)
+            return j;
+    }
+    return -1;
+}
 
+void test8() {
+    string s = "leetcode";
+    cout << first_unique_char(s) << endl;
+    string s1 = "loveleetcode";
+    cout << first_unique_char(s1) << endl;
+    string s2 = "aabbaabbc";
+    cout << first_unique_char(s2) << endl;
+    string s3 = "cccaabadb";
+    cout << first_unique_char(s3) << endl;
+}
 
+/*
+ * 判断两个单词是否是字母异位词
+ */
 
-    return 0;
+bool is_anagram(string s, string t) {
+    if (s.length() != t.length())
+        return false;
+    int arr[26] = {0};
+    for (auto &c : s) {
+        arr[c - 'a']++;
+    }
+    for (auto &c : t) {
+        arr[c - 'a']--;
+    }
+    for (auto &c : arr) {
+        if (c != 0)
+            return false;
+    }
+
+    return true;
+}
+
+void test9() {
+    string s = "anagram", t = "nagaram";
+    cout << (is_anagram(s, t) ? "true" : "false") << endl;
+    s = "rat", t = "car";
+    cout << (is_anagram(s, t) ? "true" : "false") << endl;
+
 }
 
 int main() {
@@ -351,5 +424,7 @@ int main() {
 //    test4();
 //    test5();
 //    test6();
-    test7();
+//    test7();
+//    test8();
+    test9();
 }
