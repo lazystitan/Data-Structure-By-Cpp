@@ -8,6 +8,7 @@
 #include <algorithm>
 #include <set>
 #include <climits>
+#include <queue>
 
 using namespace std;
 
@@ -538,7 +539,7 @@ void rotate(vector<int> &nums, int k) {
     if (nums.empty()) {
         return ;
     }
-    k = k%nums.size();
+    k = k % nums.size();
     if (k == 0) {
         return;
     }
@@ -576,7 +577,6 @@ bool contain_duplicate(vector<int> &nums) {
 //            return true;
 //    }
 //    return false;
-
     if (nums.empty())
         return false;
     sort(nums.begin(), nums.end());
@@ -710,6 +710,82 @@ void test15() {
     vector<int> nums{3,2,1,5,6,4};
     int k = 2;
     cout << find_k_th_largest(nums, k) << endl;
+}
+
+/*
+ * 数据流的中位数
+ * 例如【1，2，3，4】中位数是（2+3）/2 = 2.5；
+ * 又如【1，2，3】中位数是2；
+ * TODO
+ */
+
+class MedianFinder {
+private:
+    vector<int> _v;
+public:
+    MedianFinder() = default;
+
+    void addNum(int num) {
+        _v.push_back(num);
+    }
+
+    double findMedian() {
+        if (_v.size() % 2 == 0) {
+            int succeed = _v.size()/2;
+            int pre = succeed - 1;
+            return ((double)(_v[succeed] + _v[pre]))/2.0;
+        } else {
+            return _v[_v.size()/2];
+        }
+    }
+};
+
+/*
+ * 判断是否有环
+ * 快慢指针
+ */
+
+struct ListNode {
+    int val;
+    ListNode *next;
+    ListNode(int x) : val(x), next(NULL) {}
+};
+
+bool has_cycle(ListNode *head) {
+    if (!head)
+        return false;
+    ListNode *p = head, *q = head;
+    while (q && q->next) {
+        p = p->next;
+        q = q->next->next;
+        if (p == q)
+            return true;
+    }
+    return false;
+}
+
+/*
+ * 节点带随机指针的链表深拷贝
+ * TODO
+ */
+
+class Node {
+public:
+    int val;
+    Node* next;
+    Node* random;
+
+    Node() = default;
+
+    Node(int _val, Node* _next, Node* _random) {
+        val = _val;
+        next = _next;
+        random = _random;
+    }
+};
+
+Node* copy_random_list(Node* head) {
+
 }
 
 int main() {
