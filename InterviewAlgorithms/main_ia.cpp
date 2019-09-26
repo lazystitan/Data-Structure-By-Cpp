@@ -6,6 +6,8 @@
 #include <vector>
 #include <map>
 #include <algorithm>
+#include <set>
+#include <climits>
 
 using namespace std;
 
@@ -417,6 +419,299 @@ void test9() {
 
 }
 
+/*
+ * 给定一个非空字符串 s 和一个包含非空单词列表的字典 wordDict，
+ * 判定 s 是否可以被空格拆分为一个或多个在字典中出现的单词
+ * 词典中的词可以重复使用，
+ * 词典中没有重复的单词
+ * 未通过，太慢
+ * TODO
+ */
+
+bool is_this_word(int position, string &s ,string &word) {
+    for (int i = 0; i < word.length(); ++i) {
+        if (s[position + i] != word[i])
+            return false;
+    }
+    return true;
+}
+
+bool try_match_one(int position, string &s, vector<string> wordDict) {
+    if (position == s.length())
+        return true;
+    for (auto &word : wordDict) {
+//        cout << "matching : " << word << endl;
+        if (is_this_word(position, s, word) && try_match_one(position + word.length(), s, wordDict))
+            return true;
+    }
+    return false;
+}
+
+bool word_break(string s, vector<string> &wordDict) {
+//    没考虑重复前缀的词
+//    bool has_matched = false;
+//    int i = 0;
+//    int offset = 0;
+//    while (i < s.length()) {
+//        has_matched = false;
+//        for (auto &word : wordDict) {
+//            if (is_this_word(i, s, word)) {
+//                offset = word.length();
+//                has_matched = true;
+//                cout << "matched with " << word << ", offset is " << offset << endl;
+//                break;
+//            }
+//        }
+//
+//        if (offset == 0)
+//            break;
+//
+//        if (has_matched) {
+//            i += offset;
+//            cout << "now i is : " << i << ", length is : " << s.length() << endl;
+//            cout << "i < length : " <<  (i < s.length()) << endl;
+//            offset = 0;
+//
+//        }
+//        else {
+//            break;
+//        }
+//    }
+//
+//    return has_matched;
+
+    bool arr[26]{false};
+
+    for (auto &word : wordDict) {
+        for (auto &ch : word) {
+            arr[ch - 'a'] = true;
+        }
+    }
+
+    for (auto &ch : s) {
+        if (!arr[ch - 'a'])
+            return false;
+    }
+
+//    return false;
+    return try_match_one(0, s, wordDict);
+}
+
+void test10() {
+    string s = "leetcode";
+    vector<string> wordDict = {"leet", "code"};
+    cout << word_break(s, wordDict) << endl;
+    s = "cars";
+    wordDict = {"car", "ca", "rs"};
+    cout << word_break(s, wordDict) << endl;
+    s = "carss";
+    wordDict = {"car", "cas", "rs"};
+    cout << word_break(s, wordDict) << endl;
+    s = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaab";
+    wordDict = {"a","aa","aaa","aaaa","aaaaa","aaaaaa","aaaaaaa","aaaaaaaa","aaaaaaaaa","aaaaaaaaaa"};
+    cout << word_break(s, wordDict) << endl;
+
+}
+
+/*
+ * 旋转数组
+ */
+
+void rotate(vector<int> &nums, int k) {
+//    笨方法
+//    int len = nums.size();
+//    k %= nums.size();
+//    vector<int> temp(k);
+//    for (int j = 0; j < k; ++j) {
+//        temp[j] = nums[len - k + j];
+//    }
+//
+//    for (int i = len - 1; i >= k; --i) {
+//        nums[i] = nums[i - k];
+//    }
+//    for (int l = 0; l < k; ++l) {
+//        nums[l] = temp[l];
+//    }
+
+//    不需要额外空间的方法
+
+    if (nums.empty()) {
+        return ;
+    }
+    k = k%nums.size();
+    if (k == 0) {
+        return;
+    }
+    reverse(nums.begin(), nums.end()-k);
+    reverse(nums.end()-k, nums.end());
+    reverse(nums.begin(), nums.end());
+
+}
+
+void test11() {
+    vector<int> nums = {1,2,3,4,5,6,7};
+    int k = 3;
+    rotate(nums, k);
+    for (auto &num : nums) {
+        cout << num << " ";
+    }
+    cout << endl;
+}
+
+/*
+ * 判断是否存在重复元素
+ */
+
+bool contain_duplicate(vector<int> &nums) {
+//    太慢
+/*
+ * 构建一颗n个节点的红黑树的复杂度为nlogn，插入操作logn，遍历操作n
+ * 快排/堆排序复杂度nlogn，遍历logn
+ * 但红黑树使用了额外的空间
+ */
+//    set<int> s;
+//    for( auto &num : nums) {
+//        auto p = s.insert(num);
+//        if (!p.second)
+//            return true;
+//    }
+//    return false;
+
+    if (nums.empty())
+        return false;
+    sort(nums.begin(), nums.end());
+    for (int i = 0; i < nums.size() - 1; ++i) {
+        if (nums[i] == nums[i+1])
+            return true;
+    }
+    return false;
+}
+
+void test12() {
+    vector<int> nums{1, 2, 3, 1};
+    cout << contain_duplicate(nums) << endl;
+}
+
+/*
+ * 移动0
+ */
+void move_zeroes(vector<int> &nums) {
+//    太慢
+//    if (nums.empty())
+//        return;
+//    int p = nums.size();
+//    int i = p - 1;
+//    while (i >= 0) {
+//        if (nums[i] == 0) {
+//            for (int j = i; j < p - 1; ++j) {
+//                swap(nums[j], nums[j+1]);
+//            }
+//            p--;
+//            nums[p] = 0;
+//        }
+//        i--;
+//    }
+
+//    快慢指针
+    for(int i = 0, j = 0; i < nums.size(); i ++){
+        if(nums[i] != 0){
+            swap(nums[i], nums[j]);
+            j ++;
+            //同样快指针慢指针，快指针遇到不是0的和慢指针交换数据
+        }
+    }
+}
+
+void test13() {
+    vector<int> nums{0,1,0,3,12};
+    move_zeroes(nums);
+    for (auto &num : nums) {
+        cout << num << " ";
+    }
+    cout << endl;
+    nums = {0,0,1};
+    move_zeroes(nums);
+    for (auto &num : nums) {
+        cout << num << " ";
+    }
+    cout << endl;
+}
+
+/*
+ * 求两个数组的交集
+ * 直接通过
+ */
+
+vector<int> intersect(vector<int>& nums1, vector<int>& nums2) {
+    vector<int> result;
+    sort(nums1.begin(), nums1.end());
+    sort(nums2.begin(), nums2.end());
+    for(int i = 0, j = 0; (i < nums1.size()) && (j < nums2.size());) {
+        if (nums1[i] == nums2[j]) {
+            result.push_back(nums1[i]);
+            i++;
+            j++;
+        } else if (nums1[i] > nums2[j]) {
+            j++;
+        } else {
+            i++;
+        }
+    }
+    return result;
+}
+
+/*
+ * 存在递增的三元子序列
+ */
+
+bool increasing_triplet(vector<int> &nums) {
+    if (nums.size() < 3)
+        return false;
+    int min1 = INT_MAX, min2 = INT_MAX;
+    for (auto &num : nums) {
+        if (num > min2) {
+            return true;
+        }
+        if (num < min1 ) {
+            min1 = num;
+        }
+        if ((num > min1) && (num < min2)){
+            min2 = num;
+        }
+//        cout << "min1: "  << min1 << ", min2: " << min2 << endl;
+    }
+    return false;
+};
+
+void test14() {
+    vector<int> nums{5,4,3,2,1};
+    cout << increasing_triplet(nums) << endl;
+    reverse(nums.begin(), nums.end());
+    cout << increasing_triplet(nums) << endl;
+    nums = {2,1,5,0,3};
+    cout << increasing_triplet(nums) << endl;
+}
+
+/*
+ * 第K个最大的元素
+ */
+
+int find_k_th_largest(vector<int> &nums, int k) {
+    /*
+     * 想法很好，先排序再找，但会产生无用操作
+     * 假设从p将数组分为前后两个，让大的在右边，小的在左边，排序算法会对两侧都继续进行排序
+     * 但是实际上只需要对右侧进行排序即可，左侧的排序属于多余操作
+     */
+    sort(nums.begin(), nums.end());
+    return nums[nums.size() - k];
+}
+
+void test15() {
+    vector<int> nums{3,2,1,5,6,4};
+    int k = 2;
+    cout << find_k_th_largest(nums, k) << endl;
+}
+
 int main() {
 //    test1();
 //    test2();
@@ -426,5 +721,11 @@ int main() {
 //    test6();
 //    test7();
 //    test8();
-    test9();
+//    test9();
+//    test10();
+//    test11();
+//    test12();
+//    test13();
+//    test14();
+    test15();
 }
