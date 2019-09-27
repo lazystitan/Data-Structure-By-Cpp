@@ -10,4 +10,5 @@ add_executable(variadic_temp variadic_temp.cpp)
 add_executable(succeed_test succeed_test.cpp)
 add_executable(lifetime_test lifetime_test.cpp)
 add_executable(smart_pointer_test smart_pointer_test.cpp)
+add_executable(header_namespace_test header_namespace_test.cpp header_namespace_test.h)
 
