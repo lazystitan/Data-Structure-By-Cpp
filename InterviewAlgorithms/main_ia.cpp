@@ -788,6 +788,23 @@ Node* copy_random_list(Node* head) {
 
 }
 
+
+/*
+ * 字符串中不重复的子字符串个数
+ * TODO
+ */
+
+int count_substr(string &str) {
+    return 1;
+}
+
+void test16() {
+    string str;
+    cin >> str;
+    vector<string> result;
+    cout << count_substr(str);
+}
+
 int main() {
 //    test1();
 //    test2();
