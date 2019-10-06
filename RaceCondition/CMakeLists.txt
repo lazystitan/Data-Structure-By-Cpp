@@ -1,0 +1,3 @@
+project(race_condition)
+
+add_executable(race_condition_test race_condition_test.cpp)

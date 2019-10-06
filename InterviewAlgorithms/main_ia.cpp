@@ -805,6 +805,71 @@ void test16() {
     cout << count_substr(str);
 }
 
+/*
+ * 峰值元素是指其值大于左右相邻值的元素。
+ * 给定一个输入数组 nums，其中 nums[i] ≠ nums[i+1]，找到峰值元素并返回其索引。
+ * 数组可能包含多个峰值，在这种情况下，返回任何一个峰值所在位置即可。
+ * 假设 nums[-1] = nums[n] = -∞
+ */
+
+int find_peak_element(vector<int>& nums) {
+    /*
+     * 这样写可以但是太慢
+     * 由于求的是任意一个峰值， 一个一个找显然浪费了
+     */
+//    int len = nums.size();
+//    bool is_up = true;
+//
+//    for (int i = 0; i < len - 1; ++i) {
+//        if (nums[i] > nums[i+1])
+//            return i;
+//    }
+//    return len - 1;
+
+    /*
+     * 核心思想：
+     * 找到中心，
+     * 如果中心呈上升，有以下几种情况：
+     * 中心前
+     * 1.中心前一直上升
+     * 2.中心前有上升有下降
+     * 3.中心前一直下降
+     * 中心后
+     * 1.中心后一直有上升有下降
+     * 2.中心后一直上升
+     * 可以发现，中心后必有峰值，中心前可能没有
+     *
+     * 如果中心呈下降，有以下几种情况：
+     * 中心前有
+     * 1.中心前一直上升
+     * 2.中心前一直下降
+     * 3.中心前有下降，有上升
+     * 中心后有
+     * 1.中心后一直下降
+     * 2.中心后有下降有上升
+     * 可以发现中心前（包括中心）必有峰值，中心后有可能没有
+     *
+     *
+     */
+
+    int right = nums.size() - 1;
+    int left = 0;
+    while (left < right) {
+        int mid = (left + right) / 2;
+        if (nums[mid] < nums[mid + 1]) {
+            left = mid + 1;
+        } else {
+            right = mid;
+        }
+    }
+    return left;
+}
+
+void test17() {
+    vector<int> nums{1,2,1,3,5,6,4};
+    cout << find_peak_element(nums) << endl;
+}
+
 int main() {
 //    test1();
 //    test2();
@@ -820,5 +885,6 @@ int main() {
 //    test12();
 //    test13();
 //    test14();
-    test15();
+//    test15();
+    test17();
 }
