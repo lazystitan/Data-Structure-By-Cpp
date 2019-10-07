@@ -831,7 +831,7 @@ int find_peak_element(vector<int>& nums) {
      * 找到中心，
      * 如果中心呈上升，有以下几种情况：
      * 中心前
-     * 1.中心前一直上升
+     * 1.中心前一直上升 （没有峰值）
      * 2.中心前有上升有下降
      * 3.中心前一直下降
      * 中心后
@@ -841,15 +841,15 @@ int find_peak_element(vector<int>& nums) {
      *
      * 如果中心呈下降，有以下几种情况：
      * 中心前有
-     * 1.中心前一直上升
-     * 2.中心前一直下降
-     * 3.中心前有下降，有上升
+     * 1.中心前一直上升（中心点为峰值）
+     * 2.中心前一直下降 （第一个元素为峰值）
+     * 3.中心前有下降，有上升 （有，不确定位置）
      * 中心后有
-     * 1.中心后一直下降
-     * 2.中心后有下降有上升
+     * 1.中心后一直下降 （没有）
+     * 2.中心后有下降有上升 （有， 不确定位置）
      * 可以发现中心前（包括中心）必有峰值，中心后有可能没有
      *
-     *
+     * 综上所述，根据中心的趋势，可以直接在一定可以发现峰值的一侧寻找，从而减少计算
      */
 
     int right = nums.size() - 1;
@@ -870,6 +870,66 @@ void test17() {
     cout << find_peak_element(nums) << endl;
 }
 
+/*
+ * 给定一个包含 n + 1 个整数的数组 nums，其数字都在 1 到 n 之间（包括 1 和 n），
+ * 可知至少存在一个重复的整数。假设只有一个重复的整数，找出这个重复的数。
+ */
+
+int find_duplicate(vector<int>& nums) {
+    /*
+     * 注意特殊条件：所有数字都大于等于1，小于等于n
+     * 下方算法虽通过排序解决了问题，但没有用到已知的条件
+     */
+//    sort(nums.begin(), nums.end());
+//    for (int i = 0; i < nums.size() - 1; ++i) {
+//        if (nums[i] == nums[i + 1])
+//            return nums[i];
+//    }
+//    return 0;
+
+    /*
+     * 应用所有数字都大于等于1，小于等于n的已知条件，但造成了空间复杂度为n，要求为1，
+     * 此时时间复杂度为n
+     */
+//    auto *appear = new int[nums.size() - 1]{0};
+//    for (int num : nums) {
+//        if (appear[num - 1] == 0)
+//            appear[num - 1]++;
+//        else
+//            return num;
+//    }
+//    return 0;
+
+    /*
+     *从右向左，如果找到重复的元素，返回，否则将当前元素放到合适的位置，重新开始检测
+     */
+    for(int i=nums.size()-1;i>0;)
+    {
+        //如果当前元素是对应下标，i向左滑动
+        if(nums[i]==i)
+            i--;
+        //否则
+        else
+        {
+            //如果当前元素与下标为当前元素保存的的元素相同，说明当前元素是重复元素
+            if(nums[i]==nums[nums[i]])
+                return nums[i];
+            //否则交换当前元素与当前元素为下标的空间保存的元素
+            int tmp=nums[nums[i]];
+            nums[nums[i]]=nums[i];
+            nums[i]=tmp;
+        }
+    }
+    return nums[0];
+}
+
+void test18() {
+    vector<int> nums{3,1,3,4,2};
+    cout << find_duplicate(nums) << endl;
+    nums = {1,3,4,2,2};
+    cout << find_duplicate(nums) << endl;
+}
+
 int main() {
 //    test1();
 //    test2();
@@ -886,5 +946,6 @@ int main() {
 //    test13();
 //    test14();
 //    test15();
-    test17();
+//    test17();
+    test18();
 }
