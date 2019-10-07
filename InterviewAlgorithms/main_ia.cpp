@@ -13,6 +13,20 @@
 using namespace std;
 
 /*
+ * 辅助函数
+ */
+
+ostream& operator<<(ostream &os, const vector<int> &nums) {
+    os << "[";
+    for (int i = 0; i < nums.size() - 1; ++i) {
+        cout << nums[i] << ",";
+    }
+    os << nums.back() << "]";
+    return os;
+}
+
+
+/*
  * 求只出现一次的数字
  * 使用异或运算符
  * */
@@ -930,6 +944,69 @@ void test18() {
     cout << find_duplicate(nums) << endl;
 }
 
+/*
+ * 给定一个整数数组 nums，按要求返回一个新数组 counts。
+ * 数组 counts 有该性质：
+ * counts[i] 的值是  nums[i] 右侧小于 nums[i] 的元素的数量。
+ * TODO
+ */
+vector<int> count_smaller(vector<int>& nums) {
+
+    /*
+     * 最蠢的办法，超时
+     */
+
+//    int len = nums.size();
+//    vector<int> result(len, 0);
+//
+//    for (int i = len - 2; i >= 0; i--) {
+//        int count = 0;
+//        for (int j = len - 1; j > i; j--) {
+//            if (nums[i] > nums[j])
+//                count++;
+//        }
+//        result[i] = count;
+//    }
+//
+//    return result;
+
+    /*
+     * 减少了比较次数，但依然不够快
+     */
+
+//    int len = nums.size();
+//    vector<int> result(len, 0);
+//
+//    for (int i = len - 1; i > 0; i--) {
+//        for (int j = 0; j < i; ++j) {
+//            if (nums[i] < nums[j])
+//                result[j]++;
+//        }
+//    }
+//
+//    return result;
+
+
+    int len = nums.size();
+    vector<int> result(len, 0);
+
+
+
+    return result;
+}
+
+void test19() {
+    vector<int> nums{5,2,6,1};
+    cout << count_smaller(nums) << endl;
+    nums = {1};
+    cout << count_smaller(nums) << endl;
+//    nums.clear();
+//    for (int i = 0; i < 100000; ++i) {
+//        nums.emplace_back(random() % 100000);
+//    }
+//    cout << count_smaller(nums) << endl;
+}
+
 int main() {
 //    test1();
 //    test2();
@@ -947,5 +1024,6 @@ int main() {
 //    test14();
 //    test15();
 //    test17();
-    test18();
+//    test18();
+    test19();
 }
