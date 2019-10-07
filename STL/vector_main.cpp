@@ -6,6 +6,8 @@
 #include <vector>
 #include <algorithm>
 
+#include "../vector_int_os.h"
+
 using namespace std;
 
 struct {
@@ -50,8 +52,23 @@ void test2() {
     delete v;
 }
 
+/*
+ * iter lower_bound(first, last, val)
+ * lower_bound returns an iterator
+ * pointing to the first element in the range [first,last)
+ * which does not compare less than val.
+ */
+
+void test3() {
+    vector<int> nums{1, 2, 3, 4, 5, 6};
+    auto iter =lower_bound(nums.begin(), nums.end(), 5);
+    int pos = iter - nums.begin();
+    cout << pos << endl;
+}
+
 int main() {
 //    test1();
-    test2();
+//    test2();
+    test3();
     return 0;
 }

@@ -9,21 +9,10 @@
 #include <set>
 #include <climits>
 #include <queue>
+#include "../vector_int_os.h"
 
 using namespace std;
 
-/*
- * 辅助函数
- */
-
-ostream& operator<<(ostream &os, const vector<int> &nums) {
-    os << "[";
-    for (int i = 0; i < nums.size() - 1; ++i) {
-        cout << nums[i] << ",";
-    }
-    os << nums.back() << "]";
-    return os;
-}
 
 
 /*
@@ -948,12 +937,15 @@ void test18() {
  * 给定一个整数数组 nums，按要求返回一个新数组 counts。
  * 数组 counts 有该性质：
  * counts[i] 的值是  nums[i] 右侧小于 nums[i] 的元素的数量。
+ *
+ * 还有更快的解法
  * TODO
  */
 vector<int> count_smaller(vector<int>& nums) {
 
     /*
      * 最蠢的办法，超时
+     * 比较次数：外层循环len - 1，内循环len - 1 - i，共计 (n^2 - n)/2
      */
 
 //    int len = nums.size();
@@ -971,7 +963,8 @@ vector<int> count_smaller(vector<int>& nums) {
 //    return result;
 
     /*
-     * 减少了比较次数，但依然不够快
+     *  ̶减̶少̶了̶比̶较̶次̶数̶(̶也̶可̶能̶没̶有̶)̶，̶但̶依̶然̶不̶够̶快̶
+     * 比较次数依然是 (n^2 - n)/2
      */
 
 //    int len = nums.size();
@@ -986,11 +979,25 @@ vector<int> count_smaller(vector<int>& nums) {
 //
 //    return result;
 
+    /*
+     * lower_bound的单次比较次数是log(2)N + 1
+     * lower_bound中的总比较次数log(2)(n-1)! + n - 1
+     * log(2)n!化简后约为(1/2 + n)log(2)n - 1.44(n - 1/12n) + 0.83
+     * 当n很大时，可以认为是nlog(2)n - 1.44n + 0.83
+     * 故lower_bound的比较次数约为(n-1)log(2)(n-1) - 0.44n - 0.17
+     */
 
     int len = nums.size();
-    vector<int> result(len, 0);
+    vector<int> result;
 
-
+    vector<int> sorted_nums;
+    for (int i = len - 1; i >= 0; i--) {
+        auto iter = lower_bound(sorted_nums.begin(), sorted_nums.end(), nums[i]);
+        int pos = iter - sorted_nums.begin();
+        sorted_nums.insert(iter, nums[i]);
+        result.push_back(pos);
+    }
+    reverse(result.begin(), result.end());
 
     return result;
 }
@@ -1000,11 +1007,12 @@ void test19() {
     cout << count_smaller(nums) << endl;
     nums = {1};
     cout << count_smaller(nums) << endl;
-//    nums.clear();
-//    for (int i = 0; i < 100000; ++i) {
-//        nums.emplace_back(random() % 100000);
-//    }
-//    cout << count_smaller(nums) << endl;
+    nums.clear();
+    for (int i = 0; i < 100000; ++i) {
+        nums.emplace_back(random() % 100000);
+    }
+    cout << count_smaller(nums) << endl;
+
 }
 
 int main() {
