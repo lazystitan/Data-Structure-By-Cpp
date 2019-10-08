@@ -1015,6 +1015,135 @@ void test19() {
 
 }
 
+/*
+ * 给定一个无序的数组 nums，
+ * 将它重新排列成 nums[0] < nums[1] > nums[2] < nums[3]... 的顺序
+ * TODO
+ */
+
+void wiggle_sort(vector<int> &nums) {
+    /*
+     * 最蠢的办法
+     * 先排序，然后从两边隔一个元素交换，形成波浪
+     * 失败，因为有相同元素
+     */
+//    sort(nums.begin(), nums.end());
+//    int i = 1;
+//    int j = (nums.size() % 2 == 1) ? nums.size() - 1 : nums.size() - 2;
+//    while (i < j) {
+//
+//        swap(nums[i], nums[j]);
+//
+//        i+= 2;
+//        j -= 2;
+//    }
+
+    sort(nums.begin(), nums.end());
+    auto sorted_nums = nums;
+    auto min = sorted_nums.begin();
+    auto max = sorted_nums.end();
+    max--;
+    nums.clear();
+    while (min < max) {
+        nums.push_back(*min);
+        if (min < max)
+            nums.push_back(*max);
+        min++;
+        max--;
+    }
+}
+
+void test20() {
+    vector<int> nums{1, 5, 1, 1, 6, 4};
+    wiggle_sort(nums);
+    cout << nums << endl;
+    nums = {1, 3, 2, 2, 3, 1};
+    cout << nums << endl;
+
+}
+
+/*
+ * 给定一组非负整数，重新排列它们的顺序使之组成一个最大的整数。
+ * 例：
+ * 输入: [3,30,34,5,9]
+ * 输出: 9534330
+ * TODO
+ */
+
+vector<int> oct_vec(int num) {
+    vector<int> num_oct_vec;
+    while (num != 0) {
+        num_oct_vec.push_back(num % 10);
+        num /= 10;
+    }
+    reverse(num_oct_vec.begin(), num_oct_vec.end());
+    return num_oct_vec;
+}
+
+bool compare_oct_vec(vector<int> &nums1, vector<int> &nums2) {
+    int i = 0, j = 0;
+    while ((i < nums1.size()) && (j < nums2.size())) {
+        if (nums1[i] < nums2[j])
+            return false;
+        else if (nums1[i] > nums2[j])
+            return true;
+        else {
+            i++; j++;
+        }
+    }
+
+    if (i < nums1.size()) {
+        while (i < nums1.size()) {
+            if (nums1[i] < nums2[j - 1]) {
+                return false;
+            } else if (nums1[i] > nums2[j - 1]){
+                return true;
+            } else {
+                i++;
+            }
+        }
+    } else {
+        while (j < nums2.size()) {
+            if (nums2[j] < nums1[i - 1]) {
+                return true;
+            } else if (nums2[j] > nums1[i - 1]){
+                return false;
+            } else {
+                j++;
+            }
+        }
+    }
+
+    return true;
+}
+
+string largest_number(vector<int>& nums) {
+    vector<vector<int>> oct_vecs;
+    oct_vecs.reserve(nums.size());
+    for (auto &num : nums) {
+        oct_vecs.push_back(oct_vec(num));
+    }
+    sort(oct_vecs.begin(), oct_vecs.end(), compare_oct_vec);
+    string result = "";
+    for (auto &v : oct_vecs) {
+        for (auto &num : v) {
+            result.append(to_string(num));
+        }
+    }
+    return result;
+
+}
+
+void test21() {
+    vector<int> nums{3,30,34,5,9};
+    cout << largest_number(nums) << endl;
+    nums = {10,2};
+    cout << largest_number(nums) << endl;
+    nums = {1,2,3,4,5,6,7,8,9,0};
+    cout << largest_number(nums) << endl;
+
+}
+
 int main() {
 //    test1();
 //    test2();
@@ -1033,5 +1162,7 @@ int main() {
 //    test15();
 //    test17();
 //    test18();
-    test19();
+//    test19();
+//    test20();
+    test21();
 }
