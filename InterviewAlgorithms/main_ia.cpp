@@ -1070,68 +1070,126 @@ void test20() {
  * TODO
  */
 
-vector<int> oct_vec(int num) {
+/*
+ * 自己想出来的方法，太慢，太复杂
+ * bug,当全为0时，0的数量大于某一值，会让sort出现错误，未知原因
+ */
 
-    if (num == 0)
-        return {0};
+//vector<int> oct_vec(int num) {
+//
+//    if (num == 0)
+//        return {0};
+//
+//    vector<int> num_oct_vec;
+//    while (num != 0) {
+//        num_oct_vec.push_back(num % 10);
+//        num /= 10;
+//    }
+//    reverse(num_oct_vec.begin(), num_oct_vec.end());
+//    return num_oct_vec;
+//}
+//
+//bool compare_oct_vec(vector<int> &nums1, vector<int> &nums2) {
+//    int i = 0;
+//    vector<int> nums1_first = nums1;
+//    nums1_first.insert(nums1_first.end(), nums2.begin(), nums2.end());
+//    vector<int> nums2_first = nums2;
+//    nums2_first.insert(nums2_first.end(), nums1.begin(), nums1.end());
+//    while (i < nums1_first.size()) {
+//        if (nums1_first[i] < nums2_first[i])
+//            return false;
+//        else if (nums1_first[i] > nums2_first[i])
+//            return true;
+//        else
+//            i++;
+//    }
+//    return true;
+//}
+//
+//string largest_number(vector<int>& nums) {
+//    bool flag = false;
+//    for (auto &n : nums) {
+//        if (n != 0) {
+//            flag = true;
+//            break;
+//        }
+//    }
+//
+//    if (!flag)
+//        return "0";
+//
+//    vector<vector<int>> oct_vecs;
+//    oct_vecs.reserve(nums.size());
+//    for (auto &num : nums) {
+//        oct_vecs.push_back(oct_vec(num));
+//    }
+//
+//    sort(oct_vecs.begin(), oct_vecs.end(), compare_oct_vec);
+//    string result = "";
+//    for (auto &v : oct_vecs) {
+//        for (auto &num : v) {
+//            result.append(to_string(num));
+//        }
+//    }
+//    return result;
+//
+//}
 
-    vector<int> num_oct_vec;
-    while (num != 0) {
-        num_oct_vec.push_back(num % 10);
-        num /= 10;
-    }
-    reverse(num_oct_vec.begin(), num_oct_vec.end());
-    return num_oct_vec;
-}
+/*
+ * 思路清晰，实现简单的方法
+ */
 
+//bool cmp(int a,int b){
+//    string str1 = to_string(a);
+//    string str2 = to_string(b);
+//    return str1 + str2 > str2 + str1;
+//}
+//
+//string largest_number(vector<int>& nums) {
+//    string res;
+//    if(nums.empty())
+//        return res;
+//    sort(nums.begin(),nums.end(),cmp);
+//    if(nums[0] == 0)
+//        return "0";
+//    for(int num : nums){
+//        res += to_string(num);
+//    }
+//    return res;
+//}
 
-//升序
-//nums1在后，nums2在前
-//后大于前
-bool compare_oct_vec(vector<int> &nums1, vector<int> &nums2) {
-    int i = 0;
-    vector<int> nums1_first = nums1;
-    nums1_first.insert(nums1_first.end(), nums2.begin(), nums2.end());
-    vector<int> nums2_first = nums2;
-    nums2_first.insert(nums2_first.end(), nums1.begin(), nums1.end());
-    while (i < nums1_first.size()) {
-        if (nums1_first[i] < nums2_first[i])
-            return false;
-        else if (nums1_first[i] > nums2_first[i])
-            return true;
-        else
-            i++;
-    }
-    return true;
+/*
+ * 最快的方法，实现思路和我最初的相似
+ */
+
+bool func_sort(const int& a, const int& b)
+{
+    long long n_a = 10;
+    while (a / n_a) n_a *= 10;
+    long long n_b = 10;
+    while (b / n_b) n_b *= 10;
+    long long r_a = (long long)a * n_b + (long long)b;
+    long long r_b = (long long)b * n_a + (long long)a;
+    return r_a > r_b;
 }
 
 string largest_number(vector<int>& nums) {
+    sort(nums.begin(), nums.end(), func_sort);
+    string str = "";
     bool flag = false;
-    for (auto &n : nums) {
-        if (n != 0) {
-            flag = true;
-            break;
+    for (size_t i = 0; i < nums.size(); i++)
+    {
+        if (!flag)
+        {
+            if (nums[i] == 0)
+            {
+                continue;
+            }
         }
+        flag = true; // 存在非零数
+        str += to_string(nums[i]);
     }
-
-    if (!flag)
-        return "0";
-
-    vector<vector<int>> oct_vecs;
-    oct_vecs.reserve(nums.size());
-    for (auto &num : nums) {
-        oct_vecs.push_back(oct_vec(num));
-    }
-
-    sort(oct_vecs.begin(), oct_vecs.end(), compare_oct_vec);
-    string result = "";
-    for (auto &v : oct_vecs) {
-        for (auto &num : v) {
-            result.append(to_string(num));
-        }
-    }
-    return result;
-
+    return flag ? str : "0";
 }
 
 void test21() {
