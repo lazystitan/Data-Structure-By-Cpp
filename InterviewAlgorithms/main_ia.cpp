@@ -1071,6 +1071,10 @@ void test20() {
  */
 
 vector<int> oct_vec(int num) {
+
+    if (num == 0)
+        return {0};
+
     vector<int> num_oct_vec;
     while (num != 0) {
         num_oct_vec.push_back(num % 10);
@@ -1080,49 +1084,45 @@ vector<int> oct_vec(int num) {
     return num_oct_vec;
 }
 
+
+//升序
+//nums1在后，nums2在前
+//后大于前
 bool compare_oct_vec(vector<int> &nums1, vector<int> &nums2) {
-    int i = 0, j = 0;
-    while ((i < nums1.size()) && (j < nums2.size())) {
-        if (nums1[i] < nums2[j])
+    int i = 0;
+    vector<int> nums1_first = nums1;
+    nums1_first.insert(nums1_first.end(), nums2.begin(), nums2.end());
+    vector<int> nums2_first = nums2;
+    nums2_first.insert(nums2_first.end(), nums1.begin(), nums1.end());
+    while (i < nums1_first.size()) {
+        if (nums1_first[i] < nums2_first[i])
             return false;
-        else if (nums1[i] > nums2[j])
+        else if (nums1_first[i] > nums2_first[i])
             return true;
-        else {
-            i++; j++;
-        }
+        else
+            i++;
     }
-
-    if (i < nums1.size()) {
-        while (i < nums1.size()) {
-            if (nums1[i] < nums2[j - 1]) {
-                return false;
-            } else if (nums1[i] > nums2[j - 1]){
-                return true;
-            } else {
-                i++;
-            }
-        }
-    } else {
-        while (j < nums2.size()) {
-            if (nums2[j] < nums1[i - 1]) {
-                return true;
-            } else if (nums2[j] > nums1[i - 1]){
-                return false;
-            } else {
-                j++;
-            }
-        }
-    }
-
     return true;
 }
 
 string largest_number(vector<int>& nums) {
+    bool flag = false;
+    for (auto &n : nums) {
+        if (n != 0) {
+            flag = true;
+            break;
+        }
+    }
+
+    if (!flag)
+        return "0";
+
     vector<vector<int>> oct_vecs;
     oct_vecs.reserve(nums.size());
     for (auto &num : nums) {
         oct_vecs.push_back(oct_vec(num));
     }
+
     sort(oct_vecs.begin(), oct_vecs.end(), compare_oct_vec);
     string result = "";
     for (auto &v : oct_vecs) {
@@ -1141,7 +1141,10 @@ void test21() {
     cout << largest_number(nums) << endl;
     nums = {1,2,3,4,5,6,7,8,9,0};
     cout << largest_number(nums) << endl;
-
+    nums = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+    cout << largest_number(nums) << endl;
+    nums = {824,938,1399,5607,6973,5703,9609,4398,8247};
+    cout << largest_number(nums) << endl;
 }
 
 int main() {
