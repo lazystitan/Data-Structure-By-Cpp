@@ -859,6 +859,85 @@ void test22() {
 }
 
 /*
+ * 单链表排序
+ * 时间复杂度nlogn，空间复杂度常数
+ * TODO
+ */
+
+/*
+ * 不使用pre，会造成16ms时间损失
+ * 但使用了后，依然和其他人写的归并有近一倍的运行速度差距
+ */
+ListNode *sort_list(ListNode* head) {
+    if(!head)
+        return nullptr;
+
+    if(!head->next)
+        return head;
+
+    ListNode *slow = head, *fast = head, *pre = head;
+    while (fast && fast->next) {
+        pre = slow;
+        slow = slow->next;
+        fast = fast->next->next;
+    }
+    ListNode *list1 = head, *list2 = slow;
+    pre->next = nullptr;
+    list1 = sort_list(list1);
+    list2 = sort_list(list2);
+
+    ListNode *tmp = head = new ListNode(0);
+    ListNode *p = head;
+
+    while (list1 && list2) {
+        if (list1->val < list2->val) {
+            p->next = list1;
+            list1 = list1->next;
+            p = p->next;
+        } else {
+            p->next = list2;
+            list2 = list2->next;
+            p = p->next;
+        }
+    }
+    while (list1) {
+        p->next = list1;
+        p = p->next;
+        list1 = list1->next;
+    }
+
+    while (list2) {
+        p->next = list2;
+        p = p->next;
+        list2 = list2->next;
+    }
+
+    head = head->next;
+    delete tmp;
+
+    return head;
+}
+
+
+void test23() {
+    ListNode *head = new ListNode(5), *p = head;
+    for (int i = 0; i < 4; ++i) {
+        p->next = new ListNode(4 - i);
+        p = p->next;
+    }
+    p->next = nullptr;
+
+    head = sort_list(head);
+    p = head;
+    while(p) {
+        cout << p->val << " ";
+        p = p->next;
+    }
+
+}
+
+
+/*
  * 判断一个链表是否为回文链表
  * TODO
  */
@@ -1447,5 +1526,6 @@ int main() {
 //    test19();
 //    test20();
 //    test21();
-    test22();
+//    test22();
+    test23();
 }
