@@ -861,12 +861,13 @@ void test22() {
 /*
  * 单链表排序
  * 时间复杂度nlogn，空间复杂度常数
- * TODO
  */
 
 /*
  * 不使用pre，会造成16ms时间损失
  * 但使用了后，依然和其他人写的归并有近一倍的运行速度差距
+ * 去除对辅助节点堆内存分配，减少4ms，到了96ms
+ * 结合他人的解法，优化后达到48ms
  */
 ListNode *sort_list(ListNode* head) {
     if(!head)
@@ -886,38 +887,102 @@ ListNode *sort_list(ListNode* head) {
     list1 = sort_list(list1);
     list2 = sort_list(list2);
 
-    ListNode *tmp = head = new ListNode(0);
-    ListNode *p = head;
+    /*
+     * 不需要辅助节点的合并
+     */
 
-    while (list1 && list2) {
-        if (list1->val < list2->val) {
-            p->next = list1;
+    pre = nullptr, head = nullptr;
+    ListNode *p = nullptr;
+
+    while (list1 || list2) {
+        if (!list2 || (list1 && list2 && list1->val <= list2->val)) {
+            p = list1;
             list1 = list1->next;
-            p = p->next;
-        } else {
-            p->next = list2;
+        } else if (!list1 || (list1 && list2 && list1->val > list2->val)) {
+            p = list2;
             list2 = list2->next;
-            p = p->next;
         }
-    }
-    while (list1) {
-        p->next = list1;
-        p = p->next;
-        list1 = list1->next;
+
+        if (!head)
+            head = p;
+        if(pre)
+            pre->next = p;
+        pre = p;
     }
 
-    while (list2) {
-        p->next = list2;
-        p = p->next;
-        list2 = list2->next;
-    }
+    /*
+     * 需要辅助节点的合并
+     */
 
-    head = head->next;
-    delete tmp;
+//    ListNode tmp = ListNode(0);
+//    head = &tmp;
+//    ListNode *p = head;
+//
+//    while (list1 && list2) {
+//        if (list1->val < list2->val) {
+//            p->next = list1;
+//            list1 = list1->next;
+//            p = p->next;
+//        } else {
+//            p->next = list2;
+//            list2 = list2->next;
+//            p = p->next;
+//        }
+//    }
+//    if (list1)
+//        p->next = list1;
+//    if (list2)
+//        p->next = list2;
+//    head = head->next;
 
     return head;
 }
 
+/*
+ * 别人的快的方法
+ */
+
+ListNode* merge(ListNode* a, ListNode* b)
+{
+    ListNode *sorted = nullptr, *prev = nullptr, *p = nullptr;
+    while (a || b)
+    {
+        if (!b ||(a && a->val < b->val))
+        {
+            p = a;
+            a = a->next;
+        }
+        else
+        {
+            p = b;
+            b = b->next;
+        }
+        if (prev)
+            prev->next = p;
+        prev = p;
+        if (!sorted)
+            sorted = p;
+    }
+    return sorted;
+}
+
+ListNode* sortList(ListNode* head) {
+    ListNode *fast = head, *slow = head, *prev= nullptr;
+    while (fast && slow)
+    {
+        fast = fast->next;
+        if (fast)
+            fast = fast->next;
+        prev = slow;
+        slow = slow->next;
+    }
+    if (fast!=slow && prev)
+    {
+        prev->next = nullptr;
+        return merge(sortList(head), sortList(slow));
+    }
+    return head;
+}
 
 void test23() {
     ListNode *head = new ListNode(5), *p = head;
