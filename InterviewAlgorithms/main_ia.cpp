@@ -6,6 +6,7 @@
 #include <vector>
 #include <map>
 #include <unordered_map>
+#include <unordered_set>
 #include <algorithm>
 #include <set>
 #include <climits>
@@ -277,10 +278,10 @@ void test5() {
 
 /*
  * 将一个字符串划分为多个回文串，要求列出所有结果
+ * TODO
  * */
 vector<vector<string>> partition(string s) {
     vector<vector<string>> v;
-    //TODO
     return v;
 }
 
@@ -770,6 +771,91 @@ bool has_cycle(ListNode *head) {
             return true;
     }
     return false;
+}
+
+/*
+ * 找出相交链表的相交节点
+ * 没有交点返回nullptr
+ * n时间复杂度，1空间复杂度
+ */
+
+ListNode *get_intersection_node(ListNode *headA, ListNode *headB) {
+    /*
+     * 使用set的方法
+     */
+
+//    if (!headA || !headB)
+//        return nullptr;
+//
+//    ListNode *p_a = headA, *p_b = headB;
+//    unordered_set<ListNode*> s;
+//    while (p_a) {
+//        s.insert(p_a);
+//        p_a = p_a->next;
+//    }
+//    while (p_b) {
+//        if (s.find(p_b)!=s.end())
+//            return p_b;
+//        p_b = p_b->next;
+//    }
+//    return nullptr;
+
+    /*
+     * 不使用set的方法
+     * 核心思想：使headA和headB与尾部的距离都等长
+     */
+//    ListNode *p_a = headA, *p_b = headB;
+//    while (p_a && p_b) {
+//        p_a = p_a->next;
+//        p_b = p_b->next;
+//    }
+//
+//    while (p_a) {
+//        p_a = p_a->next;
+//        headA = headA->next;
+//    }
+//
+//    while (p_b) {
+//        p_b = p_b->next;
+//        headB = headB->next;
+//    }
+//
+//    while (headA && headB) {
+//        if (headA == headB) {
+//            return headA;
+//        }
+//        headA = headA->next;
+//        headB = headB->next;
+//    }
+//    return nullptr;
+
+    /*
+     * 代码更短的一个方法
+     * 似乎是a和b都在向交点靠近
+     * TODO
+     */
+
+    ListNode *a=headA,*b=headB;
+    while(a!=b){
+        (!a) ?a=headB:a=a->next;
+        (!b) ?b=headA:b=b->next;
+    }
+    return a;
+
+}
+
+void test22() {
+    ListNode *head_a = new ListNode(2), *p = head_a;
+
+    for (int i = 0; i < 10; ++i) {
+        p->next = new ListNode(i + 3);
+        p = p->next;
+    }
+    ListNode *head_b = new ListNode(1);
+    head_b->next = head_a->next->next;
+
+    cout << get_intersection_node(head_a, head_b)->val << endl;
+
 }
 
 /*
@@ -1360,5 +1446,6 @@ int main() {
 //    test18();
 //    test19();
 //    test20();
-    test21();
+//    test21();
+    test22();
 }
