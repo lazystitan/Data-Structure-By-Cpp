@@ -5,6 +5,7 @@
 #include <iostream>
 #include <vector>
 #include <map>
+#include <unordered_map>
 #include <algorithm>
 #include <set>
 #include <climits>
@@ -744,8 +745,7 @@ public:
 };
 
 /*
- * 判断是否有环
- * 快慢指针
+ * 单链表节点
  */
 
 struct ListNode {
@@ -753,6 +753,11 @@ struct ListNode {
     ListNode *next;
     ListNode(int x) : val(x), next(NULL) {}
 };
+
+/*
+ * 判断是否有环
+ * 快慢指针
+ */
 
 bool has_cycle(ListNode *head) {
     if (!head)
@@ -768,8 +773,41 @@ bool has_cycle(ListNode *head) {
 }
 
 /*
- * 节点带随机指针的链表深拷贝
+ * 判断一个链表是否为回文链表
  * TODO
+ */
+
+bool is_palindrome(ListNode* head) {
+    if (head == nullptr || head->next == nullptr || head->val == head->next->val)
+        return true;
+    ListNode *pre = head, *now = head -> next;
+
+    return false;
+}
+
+/*
+ * 给定一个单链表，把所有的奇数节点和偶数节点分别排在一起。
+ */
+
+ListNode* odd_even_list(ListNode* head) {
+    if (!head)
+        return head;
+    ListNode *odd = head;
+    ListNode *even = head->next;
+    ListNode *even_head = even;
+    while (even && even->next) {
+        odd->next = even->next;
+        odd = odd->next;
+        even->next = odd->next;
+        even = even->next;
+    }
+
+    odd->next = even_head;
+    return head;
+}
+
+/*
+ * 节点带随机指针的链表深拷贝
  */
 
 class Node {
@@ -788,7 +826,104 @@ public:
 };
 
 Node* copy_random_list(Node* head) {
+    /*
+     * 自己想的蠢方法
+     * 具体的做法是：
+     * 先不考虑随机指针，将原链表复制，
+     * 然后针对每一个随机指针，找到其在新链表中指向的位置
+     */
+//    if (!head)
+//        return nullptr;
+//    Node *new_head = new Node(head->val, nullptr, nullptr),
+//         *new_p = new_head,
+//         *p = head;
+//
+//    while (p->next) {
+//        new_p->next = new Node(p->next->val, nullptr, nullptr);
+//        new_p = new_p->next;
+//        p = p->next;
+//    }
+//
+//    new_p = new_head, p = head;
+//    while (p) {
+//        if (p->random) {
+//            Node *random_p = head, *new_random_p = new_head;
+//            while (p->random != random_p) {
+//                random_p = random_p->next;
+//                new_random_p = new_random_p->next;
+//            }
+//            new_p->random = new_random_p;
+//        }
+//        p = p->next;
+//        new_p = new_p->next;
+//    }
+//
+//    return new_head;
+    /*
+     * 使用map保存记录r
+     * 将map替换为unordered_map反而变慢了,后来发现是没有判断随机指针是否是nullptr
+     */
 
+//    if (!head)
+//        return nullptr;
+//    Node *new_head = new Node(head->val, nullptr, nullptr),
+//         *new_p = new_head,
+//         *p = head;
+//    unordered_map<Node*, Node*> m;
+//    m[head] = new_head;
+//    while (p->next) {
+//        new_p->next = new Node(p->next->val, nullptr, nullptr);
+//        new_p = new_p->next;
+//        p = p->next;
+//        m[p] = new_p;
+//    }
+//    new_p = new_head, p = head;
+//    while (p) {
+//        if (p->random)
+//            new_p->random = m[p->random];
+//        new_p = new_p->next;
+//        p = p->next;
+//    }
+//
+//    return new_head;
+
+    /*
+     * 不需要map的方法,空间复杂度为常数
+     */
+
+    if (!head)
+        return nullptr;
+
+    Node *new_head,
+         *pcur = head,
+         *pnext = head->next;
+
+    while (pcur) {
+        pcur->next = new Node(pcur->val, pcur->next, nullptr);
+        pcur = pcur->next->next;
+    }
+
+    pcur = head;
+
+    while (pcur) {
+        if (pcur->random)
+            pcur->next->random = pcur->random->next;
+        pcur = pcur->next->next;
+    }
+
+    pcur = head;
+    new_head = pnext = head->next;
+
+    while (pnext->next) {
+        pcur->next = pcur->next->next;
+        pnext->next = pnext->next->next;
+        pcur = pcur->next;
+        pnext = pcur->next;
+    }
+
+    pcur->next = nullptr;
+
+    return new_head;
 }
 
 
