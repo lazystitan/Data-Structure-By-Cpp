@@ -917,23 +917,6 @@ Node* copy_random_list(Node* head) {
     return new_head;
 }
 
-
-/*
- * 字符串中不重复的子字符串个数
- * TODO
- */
-
-int count_substr(string &str) {
-    return 1;
-}
-
-void test16() {
-    string str;
-    cin >> str;
-    vector<string> result;
-    cout << count_substr(str);
-}
-
 /*
  * 峰值元素是指其值大于左右相邻值的元素。
  * 给定一个输入数组 nums，其中 nums[i] ≠ nums[i+1]，找到峰值元素并返回其索引。

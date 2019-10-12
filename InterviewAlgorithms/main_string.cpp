@@ -5,6 +5,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <unordered_set>
 
 #include "../auxiliary_os.h"
 
@@ -363,7 +364,40 @@ void test10() {
 
 }
 
+/*
+ * 字符串中不重复的子字符串个数
+ */
+
+void find(string &s, int len, int &count) {
+    unordered_set<string> us;
+    for (int i = 0; i <= s.size() - len; i++) {
+        string temp = s.substr(i, len);
+        auto p = us.insert(temp);
+        if (p.second) {
+//            cout << temp << endl;
+            count++;
+        }
+    }
+
+}
+
+int count_substr(string &str) {
+    int count = 0;
+    for (int len = 1; len <= str.size(); len++) {
+        find(str, len, count);
+    }
+
+    return count;
+}
+
+void test16() {
+    string str = "aab";
+//    cin >> str;
+    vector<string> result;
+    cout << count_substr(str);
+}
 
 int main() {
-    test6();
+//    test6();
+    test16();
 }
