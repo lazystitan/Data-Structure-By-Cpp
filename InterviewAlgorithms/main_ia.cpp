@@ -1004,15 +1004,80 @@ void test23() {
 
 /*
  * 判断一个链表是否为回文链表
- * TODO
  */
 
-bool is_palindrome(ListNode* head) {
-    if (head == nullptr || head->next == nullptr || head->val == head->next->val)
-        return true;
-    ListNode *pre = head, *now = head -> next;
+ListNode* reverse(ListNode *head) {
+    if (!head || !head->next)
+        return head;
+    ListNode *p = nullptr, *c = head, *n = head->next;
+    while (n->next) {
+        c->next = p;
+        p = c;
+        c = n;
+        n = n->next;
+    }
+    n->next = c;
+    c->next = p;
 
-    return false;
+    return n;
+
+}
+
+bool is_palindrome(ListNode* head) {
+
+    /*
+     * 找到中点
+     * 分割
+     * 反转
+     * 对比
+     * 或许还可以将找到中点和反转合并进行 TODO
+     */
+
+    if (!head || !head->next)
+        return true;
+
+    ListNode *slow = head, *fast = head, *pre = head;
+    bool is_odd = false;
+
+    while (fast && fast->next) {
+        pre = slow;
+        slow = slow->next;
+        fast = fast->next->next;
+    }
+
+    is_odd = !fast;
+
+    pre->next = nullptr;
+
+    if (!is_odd) {
+        slow = slow->next;
+    }
+
+    slow = reverse(slow);
+
+    while (slow && head) {
+        if (slow->val != head->val)
+            return false;
+        slow = slow->next;
+        head = head->next;
+    }
+
+    return true;
+}
+
+void test24() {
+    ListNode *head = new ListNode(1), *p = head;
+    p->next = new ListNode(2);
+    p = p->next;
+//    p->next = new ListNode(3);
+//    p = p->next;
+//    p->next = new ListNode(2);
+//    p = p->next;
+//    p->next = new ListNode(1);
+//    p = p->next;
+    p->next = nullptr;
+    cout << is_palindrome(head) << endl;
+
 }
 
 /*
@@ -1432,7 +1497,6 @@ void test20() {
  * 例：
  * 输入: [3,30,34,5,9]
  * 输出: 9534330
- * TODO
  */
 
 /*
@@ -1592,5 +1656,6 @@ int main() {
 //    test20();
 //    test21();
 //    test22();
-    test23();
+//    test23();
+    test24();
 }
