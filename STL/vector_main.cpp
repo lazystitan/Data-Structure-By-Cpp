@@ -6,7 +6,7 @@
 #include <vector>
 #include <algorithm>
 
-#include "../vector_int_os.h"
+#include "../auxiliary_os.h"
 
 using namespace std;
 
