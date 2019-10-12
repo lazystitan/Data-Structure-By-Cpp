@@ -12,6 +12,22 @@
  * 辅助函数
  */
 
+template <typename T1, typename T2>
+std::ostream& operator<<(std::ostream &os, const std::pair<T1, T2> &p) {
+    os << "(" << p.first << ", " << p.second << ")";
+}
+
+template <typename T>
+std::ostream& operator<<(std::ostream &os, const std::vector<T> &items) {
+    os << "[";
+    for (int i = 0; i < items.size() - 1; ++i) {
+        os << items[i] << ",";
+    }
+    os << items.back() << "]";
+    return os;
+}
+
+
 std::ostream& operator<<(std::ostream &os, const std::vector<int> &nums) {
     os << "[";
     for (int i = 0; i < nums.size() - 1; ++i) {
