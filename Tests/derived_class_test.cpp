@@ -171,6 +171,384 @@ void mid_pri_friend_function(MidPrivate &m) {
     cout << m._mid_pri_public_data << endl;
 }
 
+class TopPubMidPub : public MidPublic {
+    friend void top_pub_mid_pub_firend_func(TopPubMidPub &m);
+private:
+    int _top_pub_mid_pub_private_data = 311;
+    void virtual_action_private() override {
+        cout << "top pub mid pub virtual private action" << endl;
+    }
+    void action_private() {
+        cout << "top pub mid pub private aciton" << endl;
+    }
+
+protected:
+    int _top_pub_mid_pub_protect_data = 312;
+    void virtual_action_protected() override {
+        cout << "top pub mid pub virtual private action" << endl;
+    }
+    void action_protected() {
+        cout << "top pub mid pub private aciton" << endl;
+    }
+
+public:
+    int _top_pub_mid_pub_public_data = 313;
+    void virtual_action_public() override {
+        cout << "top pub mid pub virtual private action" << endl;
+    }
+    void action_public() {
+        cout << "top pub mid pub private aciton" << endl;
+    }
+};
+
+void top_pub_mid_pub_firend_func(TopPubMidPub &m) {
+//    cout << m._base_private_data << endl;
+    cout << m._base_protected_data << endl;
+    cout << m._base_public_data << endl;
+//    cout << m._mid_pub_private_data << endl;
+    cout << m._mid_pub_protect_data << endl;
+    cout << m._mid_pub_public_data << endl;
+    cout << m._top_pub_mid_pub_private_data << endl;
+    cout << m._top_pub_mid_pub_protect_data << endl;
+    cout << m._top_pub_mid_pub_public_data << endl;
+}
+
+class TopProMidPub : protected MidPublic {
+    friend void top_pro_mid_pub_firend_func(TopProMidPub &m);
+private:
+    int _top_pro_mid_pub_private_data = 321;
+    void virtual_action_private() override {
+        cout << "top pro mid pub virtual private action" << endl;
+    }
+    void action_private() {
+        cout << "top pro mid pub private aciton" << endl;
+    }
+
+protected:
+    int _top_pro_mid_pub_protect_data = 322;
+    void virtual_action_protected() override {
+        cout << "top pro mid pub virtual private action" << endl;
+    }
+    void action_protected() {
+        cout << "top pro mid pub private aciton" << endl;
+    }
+
+public:
+    int _top_pro_mid_pub_public_data = 323;
+    void virtual_action_public() override {
+        cout << "top pro mid pub virtual private action" << endl;
+    }
+    void action_public() {
+        cout << "top pro mid pub private aciton" << endl;
+    }
+};
+
+void top_pro_mid_pub_firend_func(TopProMidPub &m) {
+//    cout << m._base_private_data << endl;
+    cout << m._base_protected_data << endl;
+    cout << m._base_public_data << endl;
+//    cout << m._mid_pub_private_data << endl;
+    cout << m._mid_pub_protect_data << endl;
+    cout << m._mid_pub_public_data << endl;
+    cout << m._top_pro_mid_pub_private_data << endl;
+    cout << m._top_pro_mid_pub_protect_data << endl;
+    cout << m._top_pro_mid_pub_public_data << endl;
+}
+
+class TopPriMidPub : private MidPublic {
+    friend void top_pri_mid_pub_firend_func(TopPriMidPub &m);
+private:
+    int _top_pri_mid_pub_private_data =2331;
+    void virtual_action_private() override {
+        cout << "top pri mid pub virtual private action" << endl;
+    }
+    void action_private() {
+        cout << "top pri mid pub private aciton" << endl;
+    }
+
+protected:
+    int _top_pri_mid_pub_protect_data = 332;
+    void virtual_action_protected() override {
+        cout << "top pri mid pub virtual private action" << endl;
+    }
+    void action_protected() {
+        cout << "top pri mid pub private aciton" << endl;
+    }
+
+public:
+    int _top_pri_mid_pub_public_data = 333;
+    void virtual_action_public() override {
+        cout << "top pri mid pub virtual private action" << endl;
+    }
+    void action_public() {
+        cout << "top pri mid pub private aciton" << endl;
+    }
+};
+
+void top_pri_mid_pub_firend_func(TopPriMidPub &m) {
+//    cout << m._base_private_data << endl;
+    cout << m._base_protected_data << endl;
+    cout << m._base_public_data << endl;
+//    cout << m._mid_pub_private_data << endl;
+    cout << m._mid_pub_protect_data << endl;
+    cout << m._mid_pub_public_data << endl;
+    cout << m._top_pri_mid_pub_private_data << endl;
+    cout << m._top_pri_mid_pub_protect_data << endl;
+    cout << m._top_pri_mid_pub_public_data << endl;
+}
+
+class TopPubMidPro : public MidProtect {
+    friend void top_pub_mid_pro_firend_func(TopPubMidPro &m);
+private:
+    int _top_pub_mid_pro_private_data =2331;
+    void virtual_action_private() override {
+        cout << "top pub mid pro virtual private action" << endl;
+    }
+    void action_private() {
+        cout << "top pub mid pro private aciton" << endl;
+    }
+
+protected:
+    int _top_pub_mid_pro_protect_data = 332;
+    void virtual_action_protected() override {
+        cout << "top pub mid pro virtual private action" << endl;
+    }
+    void action_protected() {
+        cout << "top pub mid pro private aciton" << endl;
+    }
+
+public:
+    int _top_pub_mid_pro_public_data = 333;
+    void virtual_action_public() override {
+        cout << "top pub mid pro virtual private action" << endl;
+    }
+    void action_public() {
+        cout << "top pub mid pro private aciton" << endl;
+    }
+};
+
+void top_pub_mid_pro_firend_func(TopPubMidPro &m) {
+    //    cout << m._base_private_data << endl;
+    cout << m._base_protected_data << endl;
+    cout << m._base_public_data << endl;
+//    cout << m._mid_pub_private_data << endl;
+    cout << m._mid_pro_protect_data << endl;
+    cout << m._mid_pro_public_data << endl;
+    cout << m._top_pub_mid_pro_private_data << endl;
+    cout << m._top_pub_mid_pro_protect_data << endl;
+    cout << m._top_pub_mid_pro_public_data << endl;
+}
+
+class TopProMidPro : protected MidProtect {
+    friend void top_pro_mid_pro_firend_func(TopProMidPro &m);
+private:
+    int _top_pro_mid_pro_private_data =2331;
+    void virtual_action_private() override {
+        cout << "top pro mid pro virtual private action" << endl;
+    }
+    void action_private() {
+        cout << "top pro mid pro private aciton" << endl;
+    }
+
+protected:
+    int _top_pro_mid_pro_protect_data = 332;
+    void virtual_action_protected() override {
+        cout << "top pro mid pro virtual private action" << endl;
+    }
+    void action_protected() {
+        cout << "top pro mid pro private aciton" << endl;
+    }
+
+public:
+    int _top_pro_mid_pro_public_data = 333;
+    void virtual_action_public() override {
+        cout << "top pro mid pro virtual private action" << endl;
+    }
+    void action_public() {
+        cout << "top pro mid pro private aciton" << endl;
+    }
+};
+
+void top_pro_mid_pro_firend_func(TopProMidPro &m) {
+//        cout << m._base_private_data << endl;
+    cout << m._base_protected_data << endl;
+    cout << m._base_public_data << endl;
+//    cout << m._mid_pub_private_data << endl;
+    cout << m._mid_pro_protect_data << endl;
+    cout << m._mid_pro_public_data << endl;
+    cout << m._top_pro_mid_pro_private_data << endl;
+    cout << m._top_pro_mid_pro_protect_data << endl;
+    cout << m._top_pro_mid_pro_public_data << endl;
+}
+
+class TopPriMidPro : private MidProtect {
+    friend void top_pri_mid_pro_firend_func(TopPriMidPro &m);
+private:
+    int _top_pri_mid_pro_private_data =2331;
+    void virtual_action_private() override {
+        cout << "top pri mid pro virtual private action" << endl;
+    }
+    void action_private() {
+        cout << "top pri mid pro private aciton" << endl;
+    }
+
+protected:
+    int _top_pri_mid_pro_protect_data = 332;
+    void virtual_action_protected() override {
+        cout << "top pri mid pro virtual private action" << endl;
+    }
+    void action_protected() {
+        cout << "top pri mid pro private aciton" << endl;
+    }
+
+public:
+    int _top_pri_mid_pro_public_data = 333;
+    void virtual_action_public() override {
+        cout << "top pri mid pro virtual private action" << endl;
+    }
+    void action_public() {
+        cout << "top pri mid pro private aciton" << endl;
+    }
+};
+
+void top_pri_mid_pro_firend_func(TopPriMidPro &m) {
+//        cout << m._base_private_data << endl;
+    cout << m._base_protected_data << endl;
+    cout << m._base_public_data << endl;
+//    cout << m._mid_pub_private_data << endl;
+    cout << m._mid_pro_protect_data << endl;
+    cout << m._mid_pro_public_data << endl;
+    cout << m._top_pri_mid_pro_private_data << endl;
+    cout << m._top_pri_mid_pro_protect_data << endl;
+    cout << m._top_pri_mid_pro_public_data << endl;
+}
+
+class TopPubMidPri : public MidPrivate {
+    friend void top_pub_mid_pri_firend_func(TopPubMidPri &m);
+private:
+    int _top_pub_mid_pri_private_data =2331;
+    void virtual_action_private() override {
+        cout << "top pub mid pri virtual private action" << endl;
+    }
+    void action_private() {
+        cout << "top pub mid pri private aciton" << endl;
+    }
+
+protected:
+    int _top_pub_mid_pri_protect_data = 332;
+    void virtual_action_protected() override {
+        cout << "top pub mid pri virtual private action" << endl;
+    }
+    void action_protected() {
+        cout << "top pub mid pri private aciton" << endl;
+    }
+
+public:
+    int _top_pub_mid_pri_public_data = 333;
+    void virtual_action_public() override {
+        cout << "top pub mid pri virtual private action" << endl;
+    }
+    void action_public() {
+        cout << "top pub mid pri private aciton" << endl;
+    }
+};
+
+void top_pub_mid_pri_firend_func(TopPubMidPri &m) {
+//    cout << m._base_private_data << endl;
+//    cout << m._base_protected_data << endl;
+//    cout << m._base_public_data << endl;
+//    cout << m._mid_pri_private_data << endl;
+    cout << m._mid_pri_protect_data << endl;
+    cout << m._mid_pri_public_data << endl;
+    cout << m._top_pub_mid_pri_private_data << endl;
+    cout << m._top_pub_mid_pri_protect_data << endl;
+    cout << m._top_pub_mid_pri_public_data << endl;
+}
+
+class TopProMidPri : protected MidPrivate {
+    friend void top_pro_mid_pri_firend_func(TopProMidPri &m);
+private:
+    int _top_pro_mid_pri_private_data =2331;
+    void virtual_action_private() override {
+        cout << "top pro mid pri virtual private action" << endl;
+    }
+    void action_private() {
+        cout << "top pro mid pri private aciton" << endl;
+    }
+
+protected:
+    int _top_pro_mid_pri_protect_data = 332;
+    void virtual_action_protected() override {
+        cout << "top pro mid pri virtual private action" << endl;
+    }
+    void action_protected() {
+        cout << "top pro mid pri private aciton" << endl;
+    }
+
+public:
+    int _top_pro_mid_pri_public_data = 333;
+    void virtual_action_public() override {
+        cout << "top pro mid pri virtual private action" << endl;
+    }
+    void action_public() {
+        cout << "top pro mid pri private aciton" << endl;
+    }
+};
+
+void top_pro_mid_pri_firend_func(TopProMidPri &m) {
+//    cout << m._base_private_data << endl;
+//    cout << m._base_protected_data << endl;
+//    cout << m._base_public_data << endl;
+//    cout << m._mid_pri_private_data << endl;
+    cout << m._mid_pri_protect_data << endl;
+    cout << m._mid_pri_public_data << endl;
+    cout << m._top_pro_mid_pri_private_data << endl;
+    cout << m._top_pro_mid_pri_protect_data << endl;
+    cout << m._top_pro_mid_pri_public_data << endl;
+}
+
+class TopPriMidPri : private MidPrivate {
+    friend void top_pri_mid_pri_firend_func(TopPriMidPri &m);
+private:
+    int _top_pri_mid_pri_private_data =2331;
+    void virtual_action_private() override {
+        cout << "top pri mid pri virtual private action" << endl;
+    }
+    void action_private() {
+        cout << "top pri mid pri private aciton" << endl;
+    }
+
+protected:
+    int _top_pri_mid_pri_protect_data = 332;
+    void virtual_action_protected() override {
+        cout << "top pri mid pri virtual private action" << endl;
+    }
+    void action_protected() {
+        cout << "top pri mid pri private aciton" << endl;
+    }
+
+public:
+    int _top_pri_mid_pri_public_data = 333;
+    void virtual_action_public() override {
+        cout << "top pri mid pri virtual private action" << endl;
+    }
+    void action_public() {
+        cout << "top pri mid pri private aciton" << endl;
+    }
+};
+
+void top_pri_mid_pri_firend_func(TopPriMidPri &m) {
+//        cout << m._base_private_data << endl;
+//    cout << m._base_protected_data << endl;
+//    cout << m._base_public_data << endl;
+//    cout << m._mid_pri_private_data << endl;
+    cout << m._mid_pri_protect_data << endl;
+    cout << m._mid_pri_public_data << endl;
+    cout << m._top_pri_mid_pri_private_data << endl;
+    cout << m._top_pri_mid_pri_protect_data << endl;
+    cout << m._top_pri_mid_pri_public_data << endl;
+}
+
 void base_test() {
     //user can only access base public members
     auto b  = Base();
@@ -214,7 +592,8 @@ void mid_protected_test() {
 //    cout << m._mid_pro_protect_data << endl;
     cout << m._mid_pro_public_data << endl;
 
-//    Base *b = &m; cannot cast
+//    Base *b = &m;
+//    cannot cast
 }
 
 void mid_private_test() {
@@ -228,7 +607,155 @@ void mid_private_test() {
 //    cout << m._mid_pri_protect_data << endl;
     cout << m._mid_pri_public_data << endl;
 
-//    Base *b = &m; cannot cast
+//    Base *b = &m;
+//    cannot cast
+}
+
+void top_pub_mid_pub_test() {
+    auto m = TopPubMidPub();
+    top_pub_mid_pub_firend_func(m);
+    //    cout << m._base_private_data << endl;
+//    cout << m._base_protected_data << endl;
+    cout << m._base_public_data << endl;
+//    cout << m._mid_pub_private_data << endl;
+//    cout << m._mid_pub_protect_data << endl;
+    cout << m._mid_pub_public_data << endl;
+//    cout << m._top_pub_mid_pub_private_data << endl;
+//    cout << m._top_pub_mid_pub_protect_data << endl;
+    cout << m._top_pub_mid_pub_public_data << endl;
+    MidPublic *mp = &m;
+    Base *b = &m;
+
+}
+
+void top_pro_mid_pub_test() {
+    auto m = TopProMidPub();
+    top_pro_mid_pub_firend_func(m);
+//    cout << m._base_private_data << endl;
+//    cout << m._base_protected_data << endl;
+//    cout << m._base_public_data << endl;
+//    cout << m._mid_pub_private_data << endl;
+//    cout << m._mid_pub_protect_data << endl;
+//    cout << m._mid_pub_public_data << endl;
+//    cout << m._top_pro_mid_pub_private_data << endl;
+//    cout << m._top_pro_mid_pub_protect_data << endl;
+    cout << m._top_pro_mid_pub_public_data << endl;
+//    MidPublic *mp = &m;
+//    Base *b = &m;
+
+}
+
+void top_pri_mid_pub_test() {
+    auto m = TopPriMidPub();
+    top_pri_mid_pub_firend_func(m);
+//    cout << m._base_private_data << endl;
+//    cout << m._base_protected_data << endl;
+//    cout << m._base_public_data << endl;
+//    cout << m._mid_pub_private_data << endl;
+//    cout << m._mid_pub_protect_data << endl;
+//    cout << m._mid_pub_public_data << endl;
+//    cout << m._top_pri_mid_pub_private_data << endl;
+//    cout << m._top_pri_mid_pub_protect_data << endl;
+    cout << m._top_pri_mid_pub_public_data << endl;
+//    MidPublic *mp = &m;
+//    Base *b = &m;
+
+}
+
+void top_pub_mid_pro_test() {
+    auto t = TopPubMidPro();
+    top_pub_mid_pro_firend_func(t);
+    //    cout << t._base_private_data << endl;
+//    cout << t._base_protected_data << endl;
+//    cout << t._base_public_data << endl;
+//    cout << t._mid_pro_private_data << endl;
+//    cout << t._mid_pro_protect_data << endl;
+    cout << t._mid_pro_public_data << endl;
+//    cout << t._top_pub_mid_pro_private_data << endl;
+//    cout << t._top_pub_mid_pro_protect_data << endl;
+    cout << t._top_pub_mid_pro_public_data << endl;
+    MidProtect *mp = &t;
+//    Base *b = &t;
+}
+
+void top_pro_mid_pro_test() {
+    auto t = TopProMidPro();
+    top_pro_mid_pro_firend_func(t);
+//    cout << t._base_private_data << endl;
+//    cout << t._base_protected_data << endl;
+//    cout << t._base_public_data << endl;
+//    cout << t._mid_pro_private_data << endl;
+//    cout << t._mid_pro_protect_data << endl;
+//    cout << t._mid_pro_public_data << endl;
+//    cout << t._top_pro_mid_pro_private_data << endl;
+//    cout << t._top_pro_mid_pro_protect_data << endl;
+    cout << t._top_pro_mid_pro_public_data << endl;
+//    MidProtect *mp = &t;
+//    Base *b = &t;
+}
+
+void top_pri_mid_pro_test() {
+    auto t = TopPriMidPro();
+    top_pri_mid_pro_firend_func(t);
+//    cout << t._base_private_data << endl;
+//    cout << t._base_protected_data << endl;
+//    cout << t._base_public_data << endl;
+//    cout << t._mid_pro_private_data << endl;
+//    cout << t._mid_pro_protect_data << endl;
+//    cout << t._mid_pro_public_data << endl;
+//    cout << t._top_pri_mid_pro_private_data << endl;
+//    cout << t._top_pri_mid_pro_protect_data << endl;
+    cout << t._top_pri_mid_pro_public_data << endl;
+//    MidProtect *mp = &t;
+//    Base *b = &t;
+}
+
+void top_pub_mid_pri_test() {
+    auto t = TopPubMidPri();
+    top_pub_mid_pri_firend_func(t);
+//    cout << t._base_private_data << endl;
+//    cout << t._base_protected_data << endl;
+//    cout << t._base_public_data << endl;
+//    cout << t._mid_pri_private_data << endl;
+//    cout << t._mid_pri_protect_data << endl;
+    cout << t._mid_pri_public_data << endl;
+//    cout << t._top_pub_mid_pri_private_data << endl;
+//    cout << t._top_pub_mid_pri_protect_data << endl;
+    cout << t._top_pub_mid_pri_public_data << endl;
+    MidPrivate *mp = &t;
+//    Base *b = &t;
+}
+
+void top_pro_mid_pri_test() {
+    auto t = TopProMidPri();
+    top_pro_mid_pri_firend_func(t);
+//    cout << t._base_private_data << endl;
+//    cout << t._base_protected_data << endl;
+//    cout << t._base_public_data << endl;
+//    cout << t._mid_pri_private_data << endl;
+//    cout << t._mid_pri_protect_data << endl;
+//    cout << t._mid_pri_public_data << endl;
+//    cout << t._top_pro_mid_pri_private_data << endl;
+//    cout << t._top_pro_mid_pri_protect_data << endl;
+    cout << t._top_pro_mid_pri_public_data << endl;
+//    MidProtect *mp = &t;
+//    Base *b = &t;
+}
+
+void top_pri_mid_pri_test() {
+    auto t = TopPriMidPri();
+    top_pri_mid_pri_firend_func(t);
+//    cout << t._base_private_data << endl;
+//    cout << t._base_protected_data << endl;
+//    cout << t._base_public_data << endl;
+//    cout << t._mid_pri_private_data << endl;
+//    cout << t._mid_pri_protect_data << endl;
+//    cout << t._mid_pri_public_data << endl;
+//    cout << t._top_pri_mid_pri_private_data << endl;
+//    cout << t._top_pri_mid_pri_protect_data << endl;
+    cout << t._top_pri_mid_pri_public_data << endl;
+//    MidProtect *mp = &t;
+//    Base *b = &t;
 }
 
 int main() {
@@ -236,6 +763,11 @@ int main() {
     base_test();
     mid_public_test();
     mid_protected_test();
+    mid_private_test();
+    top_pub_mid_pub_test();
+    top_pro_mid_pub_test();
+    top_pri_mid_pub_test();
+    top_pub_mid_pro_test();
 
     return 0;
 }
