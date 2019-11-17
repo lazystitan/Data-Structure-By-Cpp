@@ -768,6 +768,11 @@ int main() {
     top_pro_mid_pub_test();
     top_pri_mid_pub_test();
     top_pub_mid_pro_test();
+    top_pro_mid_pro_test();
+    top_pri_mid_pro_test();
+    top_pub_mid_pri_test();
+    top_pro_mid_pri_test();
+    top_pri_mid_pri_test();
 
     return 0;
 }

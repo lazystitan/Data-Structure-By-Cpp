@@ -13,4 +13,5 @@ add_executable(smart_pointer_test smart_pointer_test.cpp)
 add_executable(header_namespace_test header_namespace_test.cpp header_namespace_test.h)
 add_executable(cin_test cin_test.cpp)
 add_executable(derived_class_test derived_class_test.cpp)
+add_executable(multiple_inheritance_test multiple_inheritance_test.cpp)
 
