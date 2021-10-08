@@ -109,38 +109,9 @@ bool search_matrix(vector<vector<int>>& matrix, int target) {
 //
 //    return result;
 
-//    依旧很蠢的方法
-//    bool result = false;
-//    int m = matrix.size();
-//    if (m == 0)
-//        return false;
-//    int n = matrix[0].size();
-//    if (n == 0)
-//        return false;
-//
-//    int start_line = -1;
-//
-//    for (int i = m-1; i >= 0; --i) {
-//        if (matrix[i][0] == target)
-//            return true;
-//        else if (matrix[i][0] < target) {
-//            start_line = i;
-//            break;
-//        }
-//    }
-//
-//    if (start_line == -1)
-//        return false;
-//
-//    while (start_line >= 0) {
-//        for (int j = 0; j < n; ++j) {
-//            if (matrix[start_line][j] == target)
-//                return true;
-//        }
-//        start_line--;
-//    }
-//
-//    return result;
+    return result;
+ */
+
 
 
     int m = matrix.size();

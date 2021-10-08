@@ -2,6 +2,9 @@
 // Created by Riton on 2019/10/12.
 //
 
+/**
+ * 字符相关算法题
+ */
 #include <iostream>
 #include <vector>
 #include <string>
@@ -230,7 +233,7 @@ int first_unique_char(string s) {
 }
 
 void test8() {
-    string s = "leetcode";
+    string s = "Leetcode";
     cout << first_unique_char(s) << endl;
     string s1 = "loveleetcode";
     cout << first_unique_char(s1) << endl;
@@ -349,7 +352,7 @@ bool word_break(string s, vector<string> &wordDict) {
 }
 
 void test10() {
-    string s = "leetcode";
+    string s = "Leetcode";
     vector<string> wordDict = {"leet", "code"};
     cout << word_break(s, wordDict) << endl;
     s = "cars";

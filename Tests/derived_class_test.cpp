@@ -176,28 +176,28 @@ class TopPubMidPub : public MidPublic {
 private:
     int _top_pub_mid_pub_private_data = 311;
     void virtual_action_private() override {
-        cout << "top pub mid pub virtual private action" << endl;
+        cout << "__top pub mid pub virtual private action" << endl;
     }
     void action_private() {
-        cout << "top pub mid pub private aciton" << endl;
+        cout << "__top pub mid pub private aciton" << endl;
     }
 
 protected:
     int _top_pub_mid_pub_protect_data = 312;
     void virtual_action_protected() override {
-        cout << "top pub mid pub virtual private action" << endl;
+        cout << "__top pub mid pub virtual private action" << endl;
     }
     void action_protected() {
-        cout << "top pub mid pub private aciton" << endl;
+        cout << "__top pub mid pub private aciton" << endl;
     }
 
 public:
     int _top_pub_mid_pub_public_data = 313;
     void virtual_action_public() override {
-        cout << "top pub mid pub virtual private action" << endl;
+        cout << "__top pub mid pub virtual private action" << endl;
     }
     void action_public() {
-        cout << "top pub mid pub private aciton" << endl;
+        cout << "__top pub mid pub private aciton" << endl;
     }
 };
 
@@ -218,28 +218,28 @@ class TopProMidPub : protected MidPublic {
 private:
     int _top_pro_mid_pub_private_data = 321;
     void virtual_action_private() override {
-        cout << "top pro mid pub virtual private action" << endl;
+        cout << "__top pro mid pub virtual private action" << endl;
     }
     void action_private() {
-        cout << "top pro mid pub private aciton" << endl;
+        cout << "__top pro mid pub private aciton" << endl;
     }
 
 protected:
     int _top_pro_mid_pub_protect_data = 322;
     void virtual_action_protected() override {
-        cout << "top pro mid pub virtual private action" << endl;
+        cout << "__top pro mid pub virtual private action" << endl;
     }
     void action_protected() {
-        cout << "top pro mid pub private aciton" << endl;
+        cout << "__top pro mid pub private aciton" << endl;
     }
 
 public:
     int _top_pro_mid_pub_public_data = 323;
     void virtual_action_public() override {
-        cout << "top pro mid pub virtual private action" << endl;
+        cout << "__top pro mid pub virtual private action" << endl;
     }
     void action_public() {
-        cout << "top pro mid pub private aciton" << endl;
+        cout << "__top pro mid pub private aciton" << endl;
     }
 };
 
@@ -260,28 +260,28 @@ class TopPriMidPub : private MidPublic {
 private:
     int _top_pri_mid_pub_private_data =2331;
     void virtual_action_private() override {
-        cout << "top pri mid pub virtual private action" << endl;
+        cout << "__top pri mid pub virtual private action" << endl;
     }
     void action_private() {
-        cout << "top pri mid pub private aciton" << endl;
+        cout << "__top pri mid pub private aciton" << endl;
     }
 
 protected:
     int _top_pri_mid_pub_protect_data = 332;
     void virtual_action_protected() override {
-        cout << "top pri mid pub virtual private action" << endl;
+        cout << "__top pri mid pub virtual private action" << endl;
     }
     void action_protected() {
-        cout << "top pri mid pub private aciton" << endl;
+        cout << "__top pri mid pub private aciton" << endl;
     }
 
 public:
     int _top_pri_mid_pub_public_data = 333;
     void virtual_action_public() override {
-        cout << "top pri mid pub virtual private action" << endl;
+        cout << "__top pri mid pub virtual private action" << endl;
     }
     void action_public() {
-        cout << "top pri mid pub private aciton" << endl;
+        cout << "__top pri mid pub private aciton" << endl;
     }
 };
 
@@ -302,28 +302,28 @@ class TopPubMidPro : public MidProtect {
 private:
     int _top_pub_mid_pro_private_data =2331;
     void virtual_action_private() override {
-        cout << "top pub mid pro virtual private action" << endl;
+        cout << "__top pub mid pro virtual private action" << endl;
     }
     void action_private() {
-        cout << "top pub mid pro private aciton" << endl;
+        cout << "__top pub mid pro private aciton" << endl;
     }
 
 protected:
     int _top_pub_mid_pro_protect_data = 332;
     void virtual_action_protected() override {
-        cout << "top pub mid pro virtual private action" << endl;
+        cout << "__top pub mid pro virtual private action" << endl;
     }
     void action_protected() {
-        cout << "top pub mid pro private aciton" << endl;
+        cout << "__top pub mid pro private aciton" << endl;
     }
 
 public:
     int _top_pub_mid_pro_public_data = 333;
     void virtual_action_public() override {
-        cout << "top pub mid pro virtual private action" << endl;
+        cout << "__top pub mid pro virtual private action" << endl;
     }
     void action_public() {
-        cout << "top pub mid pro private aciton" << endl;
+        cout << "__top pub mid pro private aciton" << endl;
     }
 };
 
@@ -344,28 +344,28 @@ class TopProMidPro : protected MidProtect {
 private:
     int _top_pro_mid_pro_private_data =2331;
     void virtual_action_private() override {
-        cout << "top pro mid pro virtual private action" << endl;
+        cout << "__top pro mid pro virtual private action" << endl;
     }
     void action_private() {
-        cout << "top pro mid pro private aciton" << endl;
+        cout << "__top pro mid pro private aciton" << endl;
     }
 
 protected:
     int _top_pro_mid_pro_protect_data = 332;
     void virtual_action_protected() override {
-        cout << "top pro mid pro virtual private action" << endl;
+        cout << "__top pro mid pro virtual private action" << endl;
     }
     void action_protected() {
-        cout << "top pro mid pro private aciton" << endl;
+        cout << "__top pro mid pro private aciton" << endl;
     }
 
 public:
     int _top_pro_mid_pro_public_data = 333;
     void virtual_action_public() override {
-        cout << "top pro mid pro virtual private action" << endl;
+        cout << "__top pro mid pro virtual private action" << endl;
     }
     void action_public() {
-        cout << "top pro mid pro private aciton" << endl;
+        cout << "__top pro mid pro private aciton" << endl;
     }
 };
 
@@ -386,28 +386,28 @@ class TopPriMidPro : private MidProtect {
 private:
     int _top_pri_mid_pro_private_data =2331;
     void virtual_action_private() override {
-        cout << "top pri mid pro virtual private action" << endl;
+        cout << "__top pri mid pro virtual private action" << endl;
     }
     void action_private() {
-        cout << "top pri mid pro private aciton" << endl;
+        cout << "__top pri mid pro private aciton" << endl;
     }
 
 protected:
     int _top_pri_mid_pro_protect_data = 332;
     void virtual_action_protected() override {
-        cout << "top pri mid pro virtual private action" << endl;
+        cout << "__top pri mid pro virtual private action" << endl;
     }
     void action_protected() {
-        cout << "top pri mid pro private aciton" << endl;
+        cout << "__top pri mid pro private aciton" << endl;
     }
 
 public:
     int _top_pri_mid_pro_public_data = 333;
     void virtual_action_public() override {
-        cout << "top pri mid pro virtual private action" << endl;
+        cout << "__top pri mid pro virtual private action" << endl;
     }
     void action_public() {
-        cout << "top pri mid pro private aciton" << endl;
+        cout << "__top pri mid pro private aciton" << endl;
     }
 };
 
@@ -428,28 +428,28 @@ class TopPubMidPri : public MidPrivate {
 private:
     int _top_pub_mid_pri_private_data =2331;
     void virtual_action_private() override {
-        cout << "top pub mid pri virtual private action" << endl;
+        cout << "__top pub mid pri virtual private action" << endl;
     }
     void action_private() {
-        cout << "top pub mid pri private aciton" << endl;
+        cout << "__top pub mid pri private aciton" << endl;
     }
 
 protected:
     int _top_pub_mid_pri_protect_data = 332;
     void virtual_action_protected() override {
-        cout << "top pub mid pri virtual private action" << endl;
+        cout << "__top pub mid pri virtual private action" << endl;
     }
     void action_protected() {
-        cout << "top pub mid pri private aciton" << endl;
+        cout << "__top pub mid pri private aciton" << endl;
     }
 
 public:
     int _top_pub_mid_pri_public_data = 333;
     void virtual_action_public() override {
-        cout << "top pub mid pri virtual private action" << endl;
+        cout << "__top pub mid pri virtual private action" << endl;
     }
     void action_public() {
-        cout << "top pub mid pri private aciton" << endl;
+        cout << "__top pub mid pri private aciton" << endl;
     }
 };
 
@@ -470,28 +470,28 @@ class TopProMidPri : protected MidPrivate {
 private:
     int _top_pro_mid_pri_private_data =2331;
     void virtual_action_private() override {
-        cout << "top pro mid pri virtual private action" << endl;
+        cout << "__top pro mid pri virtual private action" << endl;
     }
     void action_private() {
-        cout << "top pro mid pri private aciton" << endl;
+        cout << "__top pro mid pri private aciton" << endl;
     }
 
 protected:
     int _top_pro_mid_pri_protect_data = 332;
     void virtual_action_protected() override {
-        cout << "top pro mid pri virtual private action" << endl;
+        cout << "__top pro mid pri virtual private action" << endl;
     }
     void action_protected() {
-        cout << "top pro mid pri private aciton" << endl;
+        cout << "__top pro mid pri private aciton" << endl;
     }
 
 public:
     int _top_pro_mid_pri_public_data = 333;
     void virtual_action_public() override {
-        cout << "top pro mid pri virtual private action" << endl;
+        cout << "__top pro mid pri virtual private action" << endl;
     }
     void action_public() {
-        cout << "top pro mid pri private aciton" << endl;
+        cout << "__top pro mid pri private aciton" << endl;
     }
 };
 
@@ -512,28 +512,28 @@ class TopPriMidPri : private MidPrivate {
 private:
     int _top_pri_mid_pri_private_data =2331;
     void virtual_action_private() override {
-        cout << "top pri mid pri virtual private action" << endl;
+        cout << "__top pri mid pri virtual private action" << endl;
     }
     void action_private() {
-        cout << "top pri mid pri private aciton" << endl;
+        cout << "__top pri mid pri private aciton" << endl;
     }
 
 protected:
     int _top_pri_mid_pri_protect_data = 332;
     void virtual_action_protected() override {
-        cout << "top pri mid pri virtual private action" << endl;
+        cout << "__top pri mid pri virtual private action" << endl;
     }
     void action_protected() {
-        cout << "top pri mid pri private aciton" << endl;
+        cout << "__top pri mid pri private aciton" << endl;
     }
 
 public:
     int _top_pri_mid_pri_public_data = 333;
     void virtual_action_public() override {
-        cout << "top pri mid pri virtual private action" << endl;
+        cout << "__top pri mid pri virtual private action" << endl;
     }
     void action_public() {
-        cout << "top pri mid pri private aciton" << endl;
+        cout << "__top pri mid pri private aciton" << endl;
     }
 };
 

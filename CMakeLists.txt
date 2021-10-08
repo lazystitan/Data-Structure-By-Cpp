@@ -12,6 +12,8 @@ add_subdirectory(ACM)
 add_subdirectory(InterviewAlgorithms)
 add_subdirectory(Dp)
 add_subdirectory(RaceCondition)
+add_subdirectory(Codewars)
+add_subdirectory(Leetcode)
 
 add_executable(main main.cpp)
 add_executable(online_exam online_exam.cpp)

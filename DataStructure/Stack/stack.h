@@ -20,7 +20,7 @@ public:
     T &top() { return  (*this)[size() - 1]; }
 //    void push( T const &e) { this->insert(this->size(), e);}
 //    T pop() { return this->remove(this->size() - 1); }
-//    T &top() { return this->operator[](this->size()-1); }
+//    T &__top() { return this->operator[](this->size()-1); }
 };
 
 #endif //DATA_STRUCTURE_BY_CPP_STACK_H
