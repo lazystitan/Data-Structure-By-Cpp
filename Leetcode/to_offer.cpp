@@ -5,8 +5,11 @@
 
 #include <iostream>
 #include <stack>
+#include <tuple>
+#include <climits>
 
 using std::stack;
+using std::tuple;
 
 class BaseStack {
 private:
@@ -14,6 +17,7 @@ private:
     int _top = 0;
 public:
     BaseStack() = default;
+
     void push(int v) {
         this->values[_top] = v;
         this->_top++;
@@ -86,14 +90,54 @@ public:
     }
 };
 
-int main() {
-    CQueue q = CQueue();
-    q.appendTail(1);
-    q.show();
-    q.appendTail(2);
-    q.show();
-    q.deleteHead();
-    q.show();
+/**
+ * 定义栈的数据结构，请在该类型中实现一个能够得到栈的最小元素的 min 函数在该栈中，调用 min、push 及 pop 的时间复杂度都是 O(1)。
+ */
+class MinStack {
+private:
+    stack<int> values;
+    stack<int> mins;
+public:
+    /** initialize your data structure here. */
 
+    void push(int x) {
+        values.push(x);
+        mins.push(std::min(x, mins.empty() ? INT_MAX : mins.top()));
+    }
+
+    void pop() {
+        if (!values.empty()) {
+            values.pop();
+            mins.pop();
+        }
+    }
+
+    int top() {
+        if (!values.empty()) {
+            return values.top();
+        }
+        return INT_MAX;
+    }
+
+    int min() {
+        if (!mins.empty()) {
+            return mins.top();
+        }
+        return INT_MAX;
+    }
+};
+
+int main() {
+    auto ms = new MinStack();
+    ms->push(2);
+    ms->push(3);
+    ms->push(2);
+    std::cout << ms->top() << std::endl;
+    std::cout << ms->min() << std::endl;
+    ms->pop();
+    ms->pop();
+    ms->pop();
+    ms->pop();
+    std::cout << ms->top() << std::endl;
 
 }
