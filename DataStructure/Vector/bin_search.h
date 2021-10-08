@@ -21,7 +21,7 @@ int bin_search_a(T * array, T const &e, int low, int high) {
     return -1; // failed
 }
 
-//only one comparision
+//only zero comparision
 template <typename T>
 int bin_search_b(T * array, T const &e, int low, int high) {
     while ( 1 < high - low) {

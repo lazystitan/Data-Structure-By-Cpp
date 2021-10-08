@@ -127,17 +127,86 @@ public:
     }
 };
 
+class Solution {
+public:
+    int sumNums(int n) {
+        int ans = 0, A = n, B = n + 1;
+
+        (B & 1) && (ans += A);
+        A <<= 1;
+        B >>= 1;
+
+        (B & 1) && (ans += A);
+        A <<= 1;
+        B >>= 1;
+
+        (B & 1) && (ans += A);
+        A <<= 1;
+        B >>= 1;
+
+        (B & 1) && (ans += A);
+        A <<= 1;
+        B >>= 1;
+
+        (B & 1) && (ans += A);
+        A <<= 1;
+        B >>= 1;
+
+        (B & 1) && (ans += A);
+        A <<= 1;
+        B >>= 1;
+
+        (B & 1) && (ans += A);
+        A <<= 1;
+        B >>= 1;
+
+        (B & 1) && (ans += A);
+        A <<= 1;
+        B >>= 1;
+
+        (B & 1) && (ans += A);
+        A <<= 1;
+        B >>= 1;
+
+        (B & 1) && (ans += A);
+        A <<= 1;
+        B >>= 1;
+
+        (B & 1) && (ans += A);
+        A <<= 1;
+        B >>= 1;
+
+        (B & 1) && (ans += A);
+        A <<= 1;
+        B >>= 1;
+
+        (B & 1) && (ans += A);
+        A <<= 1;
+        B >>= 1;
+
+        (B & 1) && (ans += A);
+        A <<= 1;
+        B >>= 1;
+
+        return ans >> 1;
+    }
+
+    int sumNumsFirst(int n) {
+        return sum(n);
+    }
+
+    static int zero(int n) {
+        return 0;
+    }
+
+    static int sum(int n) {
+        int p = n == 1;
+        int (*fa[])(int) = {sum, zero};
+        return n + (*(fa + p))(n - 1);
+    }
+};
+
 int main() {
-    auto ms = new MinStack();
-    ms->push(2);
-    ms->push(3);
-    ms->push(2);
-    std::cout << ms->top() << std::endl;
-    std::cout << ms->min() << std::endl;
-    ms->pop();
-    ms->pop();
-    ms->pop();
-    ms->pop();
-    std::cout << ms->top() << std::endl;
+    std::cout << (new Solution())->sumNums(100) << std::endl;
 
 }

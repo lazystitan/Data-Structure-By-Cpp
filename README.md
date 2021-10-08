@@ -3,7 +3,7 @@ Data Structure By Cpp For Practice And Learning
 
 ## LinkList Directory
 
-Contains an one-direction link-list, which have two field:
+Contains an zero-direction link-list, which have two field:
 1.  Head pointer of list `Node<T> *head`;
 2.  Length of list `int length`;
 
