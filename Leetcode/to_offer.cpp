@@ -8,6 +8,7 @@
 #include <tuple>
 #include <vector>
 #include <climits>
+#include <algorithm>
 
 using std::stack, std::tuple, std::vector;
 
@@ -417,79 +418,54 @@ public:
         return new_h;
 
     }
+
+    /**
+     * 在一个 n * m 的二维数组中，每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。
+     * 请完成一个高效的函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。
+     */
+    bool findNumberIn2DArray(vector<vector<int>> &matrix, int target) {
+        if (matrix.empty() || matrix[0].empty()) {
+            return false;
+        }
+        int j = 0, rows = matrix.size(), columns = matrix[0].size(), i = columns - 1 ;
+
+        while (i >= 0 && j < rows) {
+            if (matrix[j][i] < target) {
+                j++;
+            } else if (matrix[j][i] == target) {
+                return true;
+            } else {
+                i--;
+            }
+        }
+
+        return false;
+    }
+
+    bool findNumberIn2DArraySlow(vector<vector<int>> &matrix, int target) {
+
+        for (auto &i : matrix) {
+            if (std::find(i.begin(), i.end(), target) != i.end()) {
+                return true;
+            }
+        }
+        return false;
+    }
 };
 
 
 int main() {
-//    auto n1 = new ListNode(1);
-//    auto n2 = new ListNode(2);
-//    auto n3 = new ListNode(3);
-//    n1->next = n2;
-//    n2->next = n3;
-//
-//    auto r = (new Solution())->reverseList(n1);
-//    while (r) {
-//        std::cout << r->val << std::endl;
-//        r = r->next;
-//    }
+    vector<vector<int>> matrix = {
+            {1,  4,  7,  11, 15},
+            {2,  5,  8,  12, 19},
+            {3,  6,  9,  16, 22},
+            {10, 13, 14, 17, 24},
+            {18, 21, 23, 26, 30}
+    };
 
-    auto n1 = new Node(7);
-    auto n2 = new Node(13);
-    auto n3 = new Node(11);
-    auto n4 = new Node(10);
-    auto n5 = new Node(1);
-//    auto n6 = new Node(23);
+    matrix = {{5}};
+    matrix = {{5, 5}};
 
-    n1->next = n2;
-    n2->next = n3;
-    n3->next = n4;
-    n4->next = n5;
-//    n5->next = n6;
-
-    n2->random = n1;
-    n3->random = n5;
-    n4->random = n3;
-    n5->random = n1;
-//    n5->random = n6;
-//    n6->random = n5;
-
-    auto p = n1;
-    while (p) {
-        std::cout << p->val << ":";
-        if (p->random) {
-            std::cout << p->random->val << " random address:" << p->random;
-        } else {
-            std::cout << "NULL";
-        }
-        std::cout << " next address:" << p->next << std::endl;
-        p = p->next;
-    }
-
-    std::cout << std::endl;
-
-    p = (new Solution())->copyRandomList(n1);
-    while (p) {
-        std::cout << p->val << ":";
-        if (p->random) {
-            std::cout << p->random->val << " random address:" << p->random;
-        } else {
-            std::cout << "NULL";
-        }
-        std::cout << " next address:" << p->next << std::endl;
-        p = p->next;
-    }
-    std::cout << std::endl;
-
-    p = n1;
-    while (p) {
-        std::cout << p->val << ":";
-        if (p->random) {
-            std::cout << p->random->val << " random address:" << p->random;
-        } else {
-            std::cout << "NULL";
-        }
-        std::cout << " next address:" << p->next << std::endl;
-        p = p->next;
-    }
+    std::cout << ((new Solution)->findNumberIn2DArray(matrix, 5) ? "found" : "not found") << std::endl;
 
 }
