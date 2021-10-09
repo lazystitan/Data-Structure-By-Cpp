@@ -6,10 +6,10 @@
 #include <iostream>
 #include <stack>
 #include <tuple>
+#include <vector>
 #include <climits>
 
-using std::stack;
-using std::tuple;
+using std::stack, std::tuple, std::vector;
 
 class BaseStack {
 private:
@@ -127,8 +127,31 @@ public:
     }
 };
 
+struct ListNode {
+    int val;
+    ListNode *next;
+
+    ListNode(int x) : val(x), next(NULL) {}
+};
+
+class Node {
+public:
+    int val;
+    Node *next;
+    Node *random;
+
+    Node(int _val) {
+        val = _val;
+        next = NULL;
+        random = NULL;
+    }
+};
+
 class Solution {
 public:
+    /**
+     * 不使用if、for、while等语句，实现n + n - 1 + n - 2 + ... + 1
+     */
     int sumNums(int n) {
         int ans = 0, A = n, B = n + 1;
 
@@ -204,9 +227,269 @@ public:
         int (*fa[])(int) = {sum, zero};
         return n + (*(fa + p))(n - 1);
     }
+
+    vector<int> reverse_r{};
+
+    /**
+     * 输入一个链表的头节点，从尾到头反过来返回每个节点的值（用数组返回）。
+     * Definition for singly-linked list.
+     * struct ListNode {
+     *     int val;
+     *     ListNode *next;
+     *     ListNode(int x) : val(x), next(NULL) {}
+     * };
+     */
+    vector<int> &reversePrintMyMethod(ListNode *head) {
+        if (!head) {
+            return reverse_r;
+        }
+        if (head->next) {
+            reversePrintMyMethod(head->next);
+        }
+        reverse_r.push_back(head->val);
+        return reverse_r;
+    }
+
+    vector<int> reversePrint(ListNode *head) {
+        vector<int> vec;
+        stack<int> stk;
+        while (head) {
+            stk.push(head->val);
+            head = head->next;
+        }
+
+        while (!stk.empty()) {
+            vec.push_back(stk.top());
+            stk.pop();
+        }
+        return vec;
+    }
+
+
+    /**
+     * 定义一个函数，输入一个链表的头节点，反转该链表并输出反转后链表的头节点。
+     * Definition for singly-linked list.
+     * struct ListNode {
+     *     int val;
+     *     ListNode *next;
+     *     ListNode(int x) : val(x), next(NULL) {}
+     * };
+     */
+
+    ListNode *reverseList(ListNode *head) {
+        ListNode *pre = NULL, *curr = NULL, *newHead = head;
+        while (newHead) {
+            curr = newHead;
+            newHead = curr->next;
+            curr->next = pre;
+            pre = curr;
+        }
+        return pre;
+    }
+
+    ListNode *reverseListBad(ListNode *head) {
+        auto p = reverseListMain(head);
+        auto res = p;
+        if (p) {
+            res = p->next;
+            p->next = NULL;
+        }
+        return res;
+    }
+
+    ListNode *reverseListMain(ListNode *head) {
+        if (!head) {
+            return head;
+        }
+        if (!head->next) {
+            head->next = head;
+            return head;
+        }
+
+        auto p = reverseListMain(head->next);
+        head->next = p->next;
+        p->next = head;
+
+        return head;
+    }
+
+    /*
+     * 请实现 copyRandomList 函数，复制一个复杂链表。在复杂链表中，每个节点除了有一个 next 指针指向下一个节点，还有一个 random 指针指向链表中的任意节点或者 null。
+    // Definition for a Node.
+    class Node {
+    public:
+        int val;
+        Node* next;
+        Node* random;
+
+        Node(int _val) {
+            val = _val;
+            next = NULL;
+            random = NULL;
+        }
+    };
+    */
+
+//    if (head == NULL) {
+//        return NULL;
+//    }
+//    for (Node* node = head; node != NULL; node = node->next->next) {
+//        Node* nodeNew = new Node(node->val);
+//        nodeNew->next = node->next;
+//        node->next = nodeNew;
+//    }
+//    for (Node* node = head; node != NULL; node = node->next->next) {
+//        Node* nodeNew = node->next;
+//        nodeNew->random = (node->random != NULL) ? node->random->next : NULL;
+//    }
+//    Node* headNew = head->next;
+//    for (Node* node = head; node != NULL; node = node->next) {
+//        Node* nodeNew = node->next;
+//        node->next = node->next->next;
+//        nodeNew->next = (nodeNew->next != NULL) ? nodeNew->next->next : NULL;
+//    }
+//    return headNew;
+
+    Node *copyRandomList(Node *head) {
+        if (head == nullptr) {
+            return nullptr;
+        }
+
+        Node *p = head;
+        while (p) {
+            Node *nn = new Node(p->val);
+            nn->next = p->next;
+            p->next = nn;
+            p = nn->next;
+        }
+
+        p = head;
+        while (p) {
+            if (p->random) {
+                p->next->random = p->random->next;
+            }
+            p = p->next->next;
+        }
+
+        p = head;
+        Node *nh = p->next, *copy_p = p->next;
+        while (p) {
+            p->next = copy_p->next;
+            copy_p->next = copy_p->next ? copy_p->next->next : nullptr;
+            p = p->next;
+            copy_p = copy_p->next;
+        }
+        return nh;
+    }
+
+    Node *copyRandomListSlow(Node *head) {
+        if (!head) {
+            return head;
+        }
+        Node *pre, *cpyp = head, *new_h, *p;
+        new_h = pre = new Node(cpyp->val);
+        cpyp = cpyp->next;
+
+        while (cpyp) {
+            pre->next = new Node(cpyp->val);
+            pre = pre->next;
+            cpyp = cpyp->next;
+        }
+        cpyp = head;
+        p = new_h;
+        while (cpyp) {
+            Node *cpfind = head;
+            Node *thisfind = new_h;
+            if (cpyp->random) {
+                while (cpfind) {
+                    if (cpfind == cpyp->random) {
+                        p->random = thisfind;
+                        break;
+                    }
+                    cpfind = cpfind->next;
+                    thisfind = thisfind->next;
+                }
+            }
+            cpyp = cpyp->next;
+            p = p->next;
+        }
+
+        return new_h;
+
+    }
 };
 
+
 int main() {
-    std::cout << (new Solution())->sumNums(100) << std::endl;
+//    auto n1 = new ListNode(1);
+//    auto n2 = new ListNode(2);
+//    auto n3 = new ListNode(3);
+//    n1->next = n2;
+//    n2->next = n3;
+//
+//    auto r = (new Solution())->reverseList(n1);
+//    while (r) {
+//        std::cout << r->val << std::endl;
+//        r = r->next;
+//    }
+
+    auto n1 = new Node(7);
+    auto n2 = new Node(13);
+    auto n3 = new Node(11);
+    auto n4 = new Node(10);
+    auto n5 = new Node(1);
+//    auto n6 = new Node(23);
+
+    n1->next = n2;
+    n2->next = n3;
+    n3->next = n4;
+    n4->next = n5;
+//    n5->next = n6;
+
+    n2->random = n1;
+    n3->random = n5;
+    n4->random = n3;
+    n5->random = n1;
+//    n5->random = n6;
+//    n6->random = n5;
+
+    auto p = n1;
+    while (p) {
+        std::cout << p->val << ":";
+        if (p->random) {
+            std::cout << p->random->val << " random address:" << p->random;
+        } else {
+            std::cout << "NULL";
+        }
+        std::cout << " next address:" << p->next << std::endl;
+        p = p->next;
+    }
+
+    std::cout << std::endl;
+
+    p = (new Solution())->copyRandomList(n1);
+    while (p) {
+        std::cout << p->val << ":";
+        if (p->random) {
+            std::cout << p->random->val << " random address:" << p->random;
+        } else {
+            std::cout << "NULL";
+        }
+        std::cout << " next address:" << p->next << std::endl;
+        p = p->next;
+    }
+    std::cout << std::endl;
+
+    p = n1;
+    while (p) {
+        std::cout << p->val << ":";
+        if (p->random) {
+            std::cout << p->random->val << " random address:" << p->random;
+        } else {
+            std::cout << "NULL";
+        }
+        std::cout << " next address:" << p->next << std::endl;
+        p = p->next;
+    }
 
 }

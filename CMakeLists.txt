@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.1)
 
 project(data_structure_by_cpp)
 
-add_compile_options(-std=c++14)
+add_compile_options(-std=c++17)
 
 add_subdirectory(Tests)
 add_subdirectory(DataStructure)
