@@ -5,12 +5,13 @@
 
 #include <iostream>
 #include <stack>
-#include <tuple>
 #include <vector>
 #include <climits>
 #include <algorithm>
+#include <string>
+#include <regex>
 
-using std::stack, std::tuple, std::vector;
+using std::stack, std::tuple, std::vector, std::string;
 
 class BaseStack {
 private:
@@ -427,7 +428,7 @@ public:
         if (matrix.empty() || matrix[0].empty()) {
             return false;
         }
-        int j = 0, rows = matrix.size(), columns = matrix[0].size(), i = columns - 1 ;
+        int j = 0, rows = matrix.size(), columns = matrix[0].size(), i = columns - 1;
 
         while (i >= 0 && j < rows) {
             if (matrix[j][i] < target) {
@@ -451,21 +452,102 @@ public:
         }
         return false;
     }
+
+    /**
+     * 在一个 m*n 的棋盘的每一格都放有一个礼物，每个礼物都有一定的价值（价值大于 0）。
+     * 你可以从棋盘的左上角开始拿格子里的礼物，并每次向右或者向下移动一格、直到到达棋盘的右下角。
+     * 给定一个棋盘及其上面的礼物的价值，请计算你最多能拿到多少价值的礼物？
+     */
+    int maxValue(vector<vector<int>> &grid) {
+        int rows = grid.size(), columns = grid[0].size();
+        int i, j;
+
+        //i = 0, j != 0
+        for (j = 0; j < columns; ++j) {
+
+        }
+        return 0;
+    }
+
+
+    /**
+     * 请实现一个函数，把字符串 s 中的每个空格替换成"%20"。
+     */
+    string replaceSpace(string s) {
+        int count = 0, len = s.size();
+        for (char c:s) {
+            if (c == ' ') count++;
+        }
+        s.resize(len + count * 2);
+        for (int i = len - 1, j = s.length() - 1; i < j; i--, j--) {
+            if (s[i] != ' ') {
+                s[j] = s[i];
+            } else {
+                s[j - 2] = '%';
+                s[j - 1] = '2';
+                s[j] = '0';
+                j -= 2;
+            }
+        }
+        return s;
+    }
+
+    string replaceSpaceBiggerSpace(string s) {
+        string res;
+        for (int i = s.length() - 1; i >= 0; --i) {
+            if (s[i] == '\t' || s[i] == ' ') {
+                res.push_back('0');
+                res.push_back('2');
+                res.push_back('%');
+            } else {
+                res.push_back(s[i]);
+            }
+        }
+        std::reverse(res.begin(), res.end());
+        return res;
+    }
+
+    string replaceSpaceRegex(const string &s) {
+        std::regex r("\\s");
+        return std::regex_replace(s, r, "%20");
+    }
+
+    /**
+     * 字符串的左旋转操作是把字符串前面的若干个字符转移到字符串的尾部。
+     * 请定义一个函数实现字符串左旋转操作的功能。比如，输入字符串"abcdefg"和数字2，
+     * 该函数将返回左旋转两位得到的结果"cdefgab"。
+     */
+    string reverseLeftWords(string s, int n) {
+        return s.substr(n, s.length() - n) +  s.substr(0, n);
+
+    }
+
+    /**
+     * 更快
+     * abc => abcabc => ab[cab]c
+     */
+    string reverseLeftWordsNicerButReadBad(string s, int n) {
+        s += s;
+        return s.substr(n,s.size()/2);
+    }
 };
 
 
 int main() {
-    vector<vector<int>> matrix = {
-            {1,  4,  7,  11, 15},
-            {2,  5,  8,  12, 19},
-            {3,  6,  9,  16, 22},
-            {10, 13, 14, 17, 24},
-            {18, 21, 23, 26, 30}
-    };
-
-    matrix = {{5}};
-    matrix = {{5, 5}};
-
-    std::cout << ((new Solution)->findNumberIn2DArray(matrix, 5) ? "found" : "not found") << std::endl;
+//    vector<vector<int>> matrix = {
+//            {1,  4,  7,  11, 15},
+//            {2,  5,  8,  12, 19},
+//            {3,  6,  9,  16, 22},
+//            {10, 13, 14, 17, 24},
+//            {18, 21, 23, 26, 30}
+//    };
+//
+//    matrix = {{5}};
+//    matrix = {{5, 5}};
+//
+//    std::cout << ((new Solution)->findNumberIn2DArray(matrix, 5) ? "found" : "not found") << std::endl;
+    string s = "We are happy";
+    std::cout << (new Solution())->replaceSpace(s) << std::endl;
+    std::cout << (new Solution())->reverseLeftWords(s, 2) << std::endl;
 
 }
