@@ -10,6 +10,7 @@
 #include <algorithm>
 #include <string>
 #include <regex>
+#include <numeric>
 
 using std::stack, std::tuple, std::vector, std::string;
 
@@ -530,6 +531,98 @@ public:
         s += s;
         return s.substr(n,s.size()/2);
     }
+
+    /**
+     * 在一个长度为 n 的数组 nums 里的所有数字都在 0～n-1 的范围内。
+     * 数组中某些数字是重复的，但不知道有几个数字重复了，也不知道每个数字重复了几次。
+     * 请找出数组中任意一个重复的数字。
+     */
+    int  findRepeatNumber(vector<int>& nums) {
+        for (int i = 0; i < nums.size(); ++i) {
+            if (nums[i] == i) {
+                continue;
+            }
+            while (i != nums[i]) {
+                if (i == nums[nums[i]]) {
+                    return nums[i];
+                } else {
+                    std::swap(nums[i], nums[nums[i]]);
+                }
+            }
+        }
+        return -1;
+    }
+
+    int findRepeatNumberDirect(vector<int>& nums) {
+        std::sort(nums.begin(), nums.end());
+        int last = -1;
+        for (auto num : nums) {
+            if (last == num) {
+                return num;
+            } else {
+                last = num;
+            }
+        }
+        return -1;
+    }
+
+    /**
+     * 统计一个数字在排序数组中出现的次数。
+     */
+    int search(vector<int>& nums, int target) {
+        auto res = std::lower_bound(nums.begin(), nums.end(), target);
+        if (res == nums.end()) return 0;
+        int all_occurrence = 0;
+        while (res != nums.end() && *res == target) {
+            all_occurrence++;
+            res++;
+        }
+        return all_occurrence;
+    }
+
+    /**
+     * 一个长度为n-1的递增排序数组中的所有数字都是唯一的，并且每个数字都在范围0～n-1之内。
+     * 在范围0～n-1内的n个数字中有且只有一个数字不在该数组中，请找出这个数字。
+     */
+    int missingNumber(vector<int>& nums) {
+        return (nums.size() * (nums.size() + 1) / 2) - std::accumulate(nums.begin(), nums.end(), 0);
+    }
+
+    /**
+     * 把一个数组最开始的若干个元素搬到数组的末尾，我们称之为数组的旋转。
+     * 输入一个递增排序的数组的一个旋转，输出旋转数组的最小元素。
+     * 例如，数组 [3,4,5,1,2] 为 [1,2,3,4,5] 的一个旋转，该数组的最小值为1。
+     * 可以通过二分，效率更高。
+     */
+    int minArray(vector<int>& numbers) {
+        return *std::min_element(numbers.begin(), numbers.end());
+    }
+
+    /**
+     * TODO
+     * 在字符串 s 中找出第一个只出现一次的字符。如果没有，返回一个单空格。 s 只包含小写字母。
+     */
+    char firstUniqChar(string s) {
+        std::vector<std::pair<char, int>> v;
+        for (char i : s) {
+            auto itr = std::find_if(v.begin(), v.end(), [&i](std::pair<char, int> &p){
+                return p.first = i;
+            });
+            if (itr != v.end()) {
+                (*itr).second++;
+            } else {
+                v.push_back(std::pair(i, 1));
+            }
+        }
+
+        for (auto &p : v) {
+            if (p.second == 1) {
+                return p.first;
+            }
+        }
+
+        return ' ';
+    }
 };
 
 
@@ -546,8 +639,12 @@ int main() {
 //    matrix = {{5, 5}};
 //
 //    std::cout << ((new Solution)->findNumberIn2DArray(matrix, 5) ? "found" : "not found") << std::endl;
-    string s = "We are happy";
-    std::cout << (new Solution())->replaceSpace(s) << std::endl;
-    std::cout << (new Solution())->reverseLeftWords(s, 2) << std::endl;
+//    string s = "We are happy";
+//    std::cout << (new Solution())->replaceSpace(s) << std::endl;
+//    std::cout << (new Solution())->reverseLeftWords(s, 2) << std::endl;
+//    vector<int> s1 = {2, 3, 1, 0, 2, 5, 3};
+//    std::cout << (new Solution())->findRepeatNumber(s1) << std::endl;
+//    vector<int> s = {1};
+    std::cout << (new Solution())->firstUniqChar("leetcode") << std::endl;
 
 }
